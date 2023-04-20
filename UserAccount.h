@@ -15,19 +15,6 @@ class UserAccount {
         string getUsername();
         string getPassword();
 
-        void addShow(string name, string genre, int rating, int episodes);
-        void addMovie(string name, string genre, int rating);
-        
-        void editShow(string name, int episodes, int rating);
-        void editMovie(string name, int rating);
-       
-        void removeMedia(string name);
-        void removeShow(string name);
-        void removeMovie(string name);
-
-        void displayAll();
-        void displayMovies();
-        void displayShows();
         
     protected:
         string username;
