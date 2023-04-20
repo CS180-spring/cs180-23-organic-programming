@@ -4,9 +4,9 @@
 Authors:
  * [Jeffrey Hwang](https://github.com/JeffyWongo)
  * [Paul Nguyen](https://github.com/paul-ngyn)
- * [Brian Lim](https://github.com/)
+ * [Brian Lim](https://github.com/lim-at-infinity)
  * [Harrison Williams](https://github.com/)
- * [Kevin Prada](https://github.com/)
+ * [Kevin Prada](https://github.com/pradakev)
  * [Adrian Resendez](https://github.com/)
 
 ## Project Description
