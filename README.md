@@ -7,7 +7,7 @@ Authors:
  * [Brian Lim](https://github.com/lim-at-infinity)
  * [Harrison Williams](https://github.com/hwford16)
  * [Kevin Prada](https://github.com/pradakev)
- * [Adrian Resendez](https://github.com/)
+ * [Adrian Resendez](https://github.com/adrian-resendez)
 
 ## Project Description
 
