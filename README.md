@@ -4,7 +4,7 @@
 Authors:
  * [Jeffrey Hwang](https://github.com/JeffyWongo)
  * [Paul Nguyen](https://github.com/paul-ngyn)
- * [Brian Lim](https://github.com/paul-ngyn)
+ * [Brian Lim](https://github.com/)
  * [Harrison Williams](https://github.com/)
  * [Kevin Prada](https://github.com/)
  * [Adrian](https://github.com/)
