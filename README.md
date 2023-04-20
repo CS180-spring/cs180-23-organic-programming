@@ -12,4 +12,4 @@ Authors:
 ## Project Description
 
 ## Interace Documentation
-* [UML Class Diagram](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/CS180%20-%20Menu%20Interface%20Structure.pdf)
+* [UML for Menu Interface Structure](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/CS180%20-%20Menu%20Interface%20Structure.pdf)
