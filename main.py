@@ -1,4 +1,5 @@
 import json
+import os
 
 # Load the JSON data from file
 with open('cars.json', 'r') as file:
@@ -6,7 +7,7 @@ with open('cars.json', 'r') as file:
 
 # Initialize the search filters
 filters = {}
-
+8
 # Create a function to search the data by a specific key and value
 def search_data(key, value):
     found_cars = []
@@ -24,8 +25,9 @@ while True:
     print("4. Car Cost Range")
     print("5. Filter")
     print("6 Delete Last Car")
-    print("7. Exit")
-    choice = int(input("Enter your choice (1-6): "))
+    print("7. Delete Entire JSON File")
+    print("8. Exit")
+    choice = int(input("Enter your choice (1-8): "))
 
     # Update the search filters based on the user's choice
     if choice == 1:
@@ -81,6 +83,11 @@ while True:
             print("The last car in the database has been deleted.")
 
     elif choice == 7:
+        os.remove('cars.json')
+        print("JSON file deleted.")
+        break
+
+    elif choice == 8:
         print("Exiting program.")
         break
     else:
