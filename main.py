@@ -23,7 +23,8 @@ while True:
     print("3. Car Year")
     print("4. Car Cost Range")
     print("5. Filter")
-    print("6. Exit")
+    print("6 Delete Last Car")
+    print("7. Exit")
     choice = int(input("Enter your choice (1-6): "))
 
     # Update the search filters based on the user's choice
@@ -69,6 +70,17 @@ while True:
                 print(f"Name: {car['name']}, Model: {car['model']}, Year: {car['year']}, Cost: {car['cost']}")
 
     elif choice == 6:
+        # Delete the last data set in the JSON file
+        if len(cars_data) == 0:
+            print("No cars left in the database for deletion.")
+        else:
+            cars_data.pop()
+            with open('cars.json', 'w') as file:
+                # load JSON file w/ updated data sets (deleted cars) *** keep .load in mind***
+                json.dump(cars_data, file)
+            print("The last car in the database has been deleted.")
+
+    elif choice == 7:
         print("Exiting program.")
         break
     else:
