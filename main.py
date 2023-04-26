@@ -78,14 +78,13 @@ def login(accountList):
     username = input("Username: ")
     password = input("Password: ")
 
-    for i in range(len(accountList)):
-        if accountList[i].username == username and accountList[i].password == password:
+    for account in accountList:
+        if account.getUsername() == username and account.getPassword() == password:
             print("Logged in successfully!")
             print()
-            return accountList[i]
-        else:
-            print("Invalid username or password.")
-            return False
+            return account
+    print("Invalid username or password.")
+    return False
 
 def landingPageMenu():
     print("What would you like to do with a database?")
