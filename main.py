@@ -5,9 +5,12 @@ import os
 with open('cars.json', 'r') as file:
     cars_data = json.load(file)
 
-# Initialize the search filters
+# Search Variabes
+choice = 0
+isSearched = False
+objectToAppend = []
 filters = {}
-8
+
 # Create a function to search the data by a specific key and value
 def search_data(key, value):
     found_cars = []
@@ -25,9 +28,10 @@ while True:
     print("4. Car Cost Range")
     print("5. Filter")
     print("6 Delete Last Car")
-    print("7. Delete Entire JSON File")
-    print("8. Exit")
-    choice = int(input("Enter your choice (1-8): "))
+    print("7 Add Car")
+    print("8. Delete Entire JSON File")
+    print("9. Exit")
+    choice = int(input("Enter your choice (1-9): "))
 
     # Update the search filters based on the user's choice
     if choice == 1:
@@ -70,6 +74,7 @@ while True:
             print(f"Found {len(found_cars)} cars:")
             for car in found_cars:
                 print(f"Name: {car['name']}, Model: {car['model']}, Year: {car['year']}, Cost: {car['cost']}")
+            print("Edit Car?")
 
     elif choice == 6:
         # Delete the last data set in the JSON file
@@ -83,13 +88,29 @@ while True:
             print("The last car in the database has been deleted.")
 
     elif choice == 7:
+        kvNum = int(input("How many key value pairs do you want to create in your new object: "))
+        updateElements = {}
+        
+        for x in range(kvNum):
+            print("\npair: " + str(x+1))
+            keyTemp = (input("key: ")) 
+            valTemp = (input("value: "))
+            updateElements[keyTemp] = valTemp
+            
+        with open('cars.json', 'r+') as file:
+            file_data = json.load(file)
+            file_data.append(updateElements)
+            file.seek(0)
+            json.dump(file_data, file, indent=4, separators=(',',':'))
+        break
+    elif choice == 8:
         os.remove('cars.json')
         print("JSON file deleted.")
         break
-
-    elif choice == 8:
+    elif choice == 9:
         print("Exiting program.")
         break
     else:
         print("Invalid choice.")
         continue
+    
