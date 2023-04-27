@@ -21,3 +21,8 @@ Authors:
 * The second phase is the Database Interface, allowing the verified user to access their databases, and use CRUD operations on them.
 * ![Menu Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/menuLogin.png)
 * ![Database Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/databaseMenu.png)
+
+##Back End
+
+* Files are stored in local storage
+* Given a file directory, users can create, read, update, and delete JSON files
