@@ -19,5 +19,5 @@ Authors:
 * Access database using a two-phase menu structure. 
 * The first phase is the Log-in/Register, which traps the user until they have successfully logged in. 
 * The second phase is the Database Interface, allowing the verified user to access their databases, and use CRUD operations on them.
-* [Menu Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/menuLogin.png)
-* [Database Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/databaseMenu.png)
+* ![Menu Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/menuLogin.png)
+* ![Database Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/databaseMenu.png)
