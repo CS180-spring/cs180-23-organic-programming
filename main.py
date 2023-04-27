@@ -1,116 +1,179 @@
-import json
-import os
+""" CS 180 - Organic Programming """
+from UserAccount import *
 
-# Load the JSON data from file
-with open('cars.json', 'r') as file:
-    cars_data = json.load(file)
+def main():
+    exampleUser = UserAccount("kprada", "password")
+    accountList = [exampleUser]
+    menu(accountList)
 
-# Search Variabes
-choice = 0
-isSearched = False
-objectToAppend = []
-filters = {}
+def menu(accountList):
+    choice = "P"
+    menuChoice = ""
+    loggedIn = False
 
-# Create a function to search the data by a specific key and value
-def search_data(key, value):
-    found_cars = []
-    for car in cars_data:
-        if car[key] == value:
-            found_cars.append(car)
-    return found_cars
+    while not loggedIn:
+        userAccountMenu()
+        choice = input("Choose an option: ")
 
-# Display the menu and get user input
-while True:
-    print("Please select a search criteria:")
-    print("1. Car Name")
-    print("2. Car Model")
-    print("3. Car Year")
-    print("4. Car Cost Range")
-    print("5. Filter")
-    print("6 Delete Last Car")
-    print("7 Add Car")
-    print("8. Delete Entire JSON File")
-    print("9. Exit")
-    choice = int(input("Enter your choice (1-9): "))
-
-    # Update the search filters based on the user's choice
-    if choice == 1:
-        name = input("Enter the car name: ")
-        filters['name'] = name
-    elif choice == 2:
-        model = input("Enter the car model: ")
-        filters['model'] = model
-    elif choice == 3:
-        year = input("Enter the car year: ")
-        filters['year'] = year
-    elif choice == 4:
-        min_cost = int(input("Enter the minimum car cost: "))
-        max_cost = int(input("Enter the maximum car cost: "))
-        filters['min_cost'] = min_cost
-        filters['max_cost'] = max_cost
-    elif choice == 5:
-        found_cars = cars_data
-        for key, value in filters.items():
-            if key == 'name':
-                found_cars = search_data('name', value)
-            elif key == 'model':
-                found_cars = search_data('model', value)
-            elif key == 'year':
-                found_cars = search_data('year', value)
-            elif key == 'min_cost' and 'max_cost' in filters:
-                found_cars = []
-                for car in cars_data:
-                    if filters['min_cost'] <= car['cost'] <= filters['max_cost']:
-                        found_cars.append(car)
-            elif key == 'min_cost':
-                found_cars = [car for car in found_cars if car['cost'] >= value]
-            elif key == 'max_cost':
-                found_cars = [car for car in found_cars if car['cost'] <= value]
-
-        # Display the results
-        if len(found_cars) == 0:
-            print("No cars found.")
+        # Login
+        if choice == "A":
+            account = login(accountList)
+            if not account:
+                print("Try Again?")
+            else:
+                loggedIn = True
+        # Register
+        elif choice == "B":
+            registerAccount(accountList)
+        # Reset Password
+        elif choice == "C":
+            print("Resetting password!")
         else:
-            print(f"Found {len(found_cars)} cars:")
-            for car in found_cars:
-                print(f"Name: {car['name']}, Model: {car['model']}, Year: {car['year']}, Cost: {car['cost']}")
-            print("Edit Car?")
+            exit(0)
 
-    elif choice == 6:
-        # Delete the last data set in the JSON file
-        if len(cars_data) == 0:
-            print("No cars left in the database for deletion.")
+    # Now we know they are logged in
+    while not menuChoice == "X":
+        landingPageMenu()
+        menuChoice = input("Choose an option: ")
+
+        # Create Database
+        if menuChoice == "A":
+            createMenu()
+        # Read Database
+        elif menuChoice == "B":
+            readMenu()
+        # Update Database
+        elif menuChoice == "C":
+            updateMenu()
+        # Delete Database
+        elif menuChoice == "D":
+            deleteMenu()
+        elif menuChoice == "E":
+            viewMenu()
         else:
-            cars_data.pop()
-            with open('cars.json', 'w') as file:
-                # load JSON file w/ updated data sets (deleted cars) *** keep .load in mind***
-                json.dump(cars_data, file)
-            print("The last car in the database has been deleted.")
+            exit(0)
 
-    elif choice == 7:
-        kvNum = int(input("How many key value pairs do you want to create in your new object: "))
-        updateElements = {}
-        
-        for x in range(kvNum):
-            print("\npair: " + str(x+1))
-            keyTemp = (input("key: ")) 
-            valTemp = (input("value: "))
-            updateElements[keyTemp] = valTemp
-            
-        with open('cars.json', 'r+') as file:
-            file_data = json.load(file)
-            file_data.append(updateElements)
-            file.seek(0)
-            json.dump(file_data, file, indent=4, separators=(',',':'))
-        break
-    elif choice == 8:
-        os.remove('cars.json')
-        print("JSON file deleted.")
-        break
-    elif choice == 9:
-        print("Exiting program.")
-        break
+
+def userAccountMenu():
+    print("[A] Login")
+    print("[B] Register")
+    print("[C] Reset Password")
+
+    print("[X] Quit")
+    print()
+
+def registerAccount(accountList):
+    print("REGISTER ACCOUNT")
+    username = input("Enter a username: ")
+    password = input("Enter a password: ")
+
+    user = UserAccount(username, password)
+    accountList.append(user)
+
+    print("Account created successfully!")
+    print()
+
+def login(accountList):
+    print("LOG-IN")
+    username = input("Username: ")
+    password = input("Password: ")
+
+    for account in accountList:
+        if account.getUsername() == username and account.getPassword() == password:
+            print("Logged in successfully!")
+            print()
+            return account
+    print("Invalid username or password.")
+    return False
+
+def landingPageMenu():
+    print("What would you like to do with a database?")
+    print("[A] Create")
+    print("[B] Read")
+    print("[C] Update")
+    print("[D] Delete")
+    print("[E] View")
+
+    print("[X] Exit")
+
+def readMenu():
+    databaseFile = input("Database FileName: ")
+    print("-= Verifying & Processing Database =-")
+    print()
+    # Verify database here
+    # If verified, print success
+    print("Database successfully read")
+    print()
+
+def updateMenu():
+    databaseFile = input("Database FileName: ")
+    print("-= Verifying & Processing Database =-")
+    print()
+    # Verify database here
+    # If verified, print success
+    print("Database successfully found")
+    print()
+
+    print("Update Options:")
+    print("[A] Update")
+    print("[B] Delete")
+    print("[C] View")
+
+    print("[X] Exit")
+
+def createMenu():
+    databaseFile = input("Database FileName: ")
+    print("-= Verifying Database =-")
+    # Verify database here
+    # If verified, print success
+    print("Database name available")
+    print()
+
+    print("Categories - ")
+    print("Enter [X] when done.")
+
+    # Create categories here
+
+    print()
+    print("Create Database record?")
+    print("[Y] Yes")
+    print("[N] No")
+
+def deleteMenu():
+    databaseFile = input("Database FileName: ")
+    print("-= Verifying & Processing Database =-")
+    # Verify database here
+    # If verified, print success
+    print("Database successfully found")
+
+    print("Are you sure you want to delete", databaseFile, "?")
+    print("[Y] Yes")
+    print("[N] No")
+
+    userChoice = input("")
+
+    if userChoice == "Y":
+        print("Deleting Database.")
+        # Delete from vector
+        print("Successfully deleted.")
     else:
-        print("Invalid choice.")
-        continue
-    
+        print("Okay!")
+
+    print("[A] Main Menu")
+    print("[X] Exit")
+
+def viewMenu():
+    databaseFile = input("Database FileName: ")
+    print("-= Verifying & Processing Database =-")
+    # Verify database here
+    # If verified, print success
+    print("Database successfully found")
+
+    print("View Options:")
+    print("[A] Sort")
+    print("[B] Filter")
+    print("[C] Search")
+
+    print("[X] Exit")
+
+main()
