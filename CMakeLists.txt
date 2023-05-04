@@ -14,5 +14,5 @@ ADD_EXECUTABLE(test
     UserAccount.cpp
 )
 
-TARGET_LINK_LIBRARIES(test gtest)
+TARGET_LINK_LIBRARIES(test gmock gtest gtest_main)
 TARGET_COMPILE_DEFINITIONS(test PRIVATE gtest_disable_pthreads=ON)
