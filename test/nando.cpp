@@ -1,11 +1,11 @@
- #include <iostream>
+#include <iostream>
 #include <fstream>
 #include "output/json/single_include/nlohmann/json.hpp"
 
 using json = nlohmann::json;
 
 int main() {
-    std::ifstream i("input.json");
+    std::ifstream i("mangaCollection.json");
     json j;
     i >> j;
 
@@ -22,13 +22,12 @@ int main() {
         user_input[key] = value;
     }
 
-    //input.first - key
-    //input.second - value
+    //check if element from j = user input value, if match = true , pushback element into filtered_json
     json filtered_json;
     for (auto& element : j) {
         bool match = true;
-        for (auto& input : user_input) {
-            if (element[input.first] != input.second) {
+        for (auto& [key, value] : user_input) {
+            if (element[key] != value) {
                 match = false;
                 break;
             }
