@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include "UserAccount.h"
+#include "Database.h"
 
 using namespace std;
 
@@ -99,8 +100,8 @@ void printMainMenu(vector<UserAccount> &accountList)
                 {
                     cout << endl;
                     cout << "What would you like to do? " << endl;
-                    cout << "a. " << endl;
-                    cout << "b. " << endl;
+                    cout << "a. Create your database" << endl;
+                    cout << "b. Delete your database" << endl;
                     cout << "c. " << endl;
                     cout << "d. " << endl;
                     cout << "e. " << endl;
@@ -111,7 +112,11 @@ void printMainMenu(vector<UserAccount> &accountList)
 
                     if (menuChoice == 'a')
                     {
-
+                        string databaseName;
+                        cout << "Enter name of database: ";
+                        cin >> databaseName;
+                        databaseName.insert(0, "C:\\Users\\jeffh\\code\\");
+                        CreateFolder(databaseName);
                     }
                     else if (menuChoice == 'b')
                     {
