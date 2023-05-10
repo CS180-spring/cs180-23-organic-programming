@@ -6,87 +6,62 @@
 #include "rapidjson/istreamwrapper.h"
 #include <fstream>
 #include <iostream>
-#include <windows.h>
 #include <stdio.h>
+#include <cstdlib>
+#include <filesystem>
 
 using namespace std;
 using namespace rapidjson;
+namespace fs = std::filesystem;
 
-void CreateFolder(const char * folderName)
-{   
-    wstring wideFolderName;
+class Database
+{
+private:
+    string name;
 
-    // Convert the folder name to a wide string
-    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, folderName, -1, NULL, 0);
-    if (bufferSize == 0) {
-        cerr << "Error converting folder name to wide string: " << GetLastError() << endl;
-        exit(1);
+public:
+    Database()
+    {
+        this->name = "";
+    }
+    
+    Database(string name)
+    {
+        this->name = name;
     }
 
-    wideFolderName.resize(bufferSize);
-    MultiByteToWideChar(CP_UTF8, 0, folderName, -1, &wideFolderName[0], bufferSize);
+    void createDirectory()
+    {
+        string databaseName = name;
+        databaseName.insert(0, "../");
+        fs::path dbDirectory = databaseName.c_str();
+        fs::create_directory(dbDirectory);
 
-    // Create the folder
-    if (CreateDirectoryW(wideFolderName.c_str(), NULL)) {
-        cout << "Directory created successfully." << endl;
-    } else {
-        cerr << "Error creating directory: " << GetLastError() << endl;
+        if (fs::exists(dbDirectory))
+        {
+            cout << "Directory created successfully\n";
+        }
+        // Create the example sub directories
+        fs::create_directory(dbDirectory / "Collection1");
+        fs::create_directory(dbDirectory / "Collection2");
+        fs::create_directory(dbDirectory / "Collection3");
+        
+        fs::current_path(dbDirectory);
+        cout << "The Current Path = " << fs::current_path() << endl;
     }
-}
 
-void deleteDirectory(const char* folderName) {
-    wstring wideFolderName;
+    void deleteDirectory()
+    {
+        string databaseName = name;
+        databaseName.insert(0, "../");
+        fs::path dbDirectory = databaseName.c_str();
+        fs::remove_all(dbDirectory);
 
-    // Convert the folder name to a wide string
-    int bufferSize = MultiByteToWideChar(CP_UTF8, 0, folderName, -1, NULL, 0);
-    if (bufferSize == 0) {
-        cerr << "Error converting folder name to wide string: " << GetLastError() << endl;
-        exit(1);
+        // Check if the directory exists
+        if (!fs::exists(dbDirectory))
+        {
+            cout << "Directory deleted successfully\n";
+        }
     }
-
-    wideFolderName.resize(bufferSize);
-    MultiByteToWideChar(CP_UTF8, 0, folderName, -1, &wideFolderName[0], bufferSize);
-    // Delete the folder
-    if (RemoveDirectory(wideFolderName.c_str())) {
-        cout << "Directory deleted successfully." << endl;
-    } else {
-        cerr << "Error deleting directory: " << GetLastError() << endl;
-    }
-}
-
-// int main() {
-
-//     CreateFolder("C:\\Users\\jeffh\\code\\myfolder");
-
-//     // Load the input.json file
-//     ifstream input("cars.json");
-//     if (!input.is_open()) {
-//         cerr << "Error opening input.json." << endl;
-//         return 1;
-//     }
-
-//     // Parse the input.json file into a RapidJSON document
-//     Document document;
-//     IStreamWrapper inputWrapper(input);
-//     document.ParseStream(inputWrapper);
-
-//     // Serialize the document to a string
-//     StringBuffer buffer;
-//     Writer<StringBuffer> writer(buffer);
-//     document.Accept(writer);
-//     string jsonString = buffer.GetString();
-
-//     // Write the JSON string to a file in the data folder
-//     ofstream output("../myfolder/output.json");
-//     if (!output.is_open()) {
-//         cerr << "Error opening output.json." << endl;
-//         return 1;
-//     }
-//     output << jsonString;
-//     output.close();
-
-
-//     return 0;
-// }
-
+};
 #endif

@@ -3,7 +3,6 @@
 #include <vector>
 #include <fstream>
 #include "UserAccount.h"
-#include "Database.h"
 
 using namespace std;
 
@@ -11,13 +10,11 @@ void registerAccount(vector<UserAccount> &accountList)
 {
     string user;
     string pass;
-    UserAccount account;
     cout << "Enter a username: ";
     getline(cin, user);
     cout << "Enter a password: ";
     getline(cin, pass);
-    account.setUsername(user);
-    account.setPassword(pass);
+    UserAccount account(user, pass);
     accountList.push_back(account);
     cout << "Account created successfully!" << endl;
 }
@@ -57,7 +54,6 @@ void changePassword(vector<UserAccount> &accountList)
     }
     cout << "Invalid username or password." << endl;
 }
-
 
 void printMainMenu(vector<UserAccount> &accountList)
 {
@@ -112,33 +108,30 @@ void printMainMenu(vector<UserAccount> &accountList)
 
                     if (menuChoice == 'a')
                     {
-                        string databaseName;
-                        cout << "Enter name of database: ";
-                        cin >> databaseName;
-                        databaseName.insert(0, "C:\\Users\\jeffh\\code\\");
-                        CreateFolder(databaseName);
+                        string dbName = account.getUsername().append("'s database");
+                        Database db(dbName);
+                        db.createDirectory();
+                        Database* p = &db;
+                        account.setDatabase(p);
                     }
                     else if (menuChoice == 'b')
                     {
-
+                        account.getDatabase()->deleteDirectory();
+                        account.setDatabase(nullptr);
                     }
 
                     else if (menuChoice == 'c')
                     {
-
                     }
                     else if (menuChoice == 'd')
                     {
-
                     }
 
-                    else if (menuChoice == 'e') 
+                    else if (menuChoice == 'e')
                     {
-
                     }
                     else if (menuChoice == 'f')
                     {
-
                     }
                 }
             }
