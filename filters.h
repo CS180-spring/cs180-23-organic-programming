@@ -4,14 +4,19 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Database.h"
+#include "rapidjson/filereadstream.h"
 #include "rapidjson/document.h"
+#include "rapidjson/istreamwrapper.h"
+#include "rapidjson/prettywriter.h"
 
 using namespace std;
 
 class Filters
 {
 public:
+/*
 void outputFirstDataSet(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -39,23 +44,27 @@ void outputFirstDataSet(const std::string& filename) {
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     firstDataSet.Accept(writer);
     std::cout << buffer.GetString() << std::endl;
-}
-/*std::vector<std::string> getKeysFromFirstObject(const std::string& filename) {
+}*/
+std::vector<std::string> getKeysFromFirstObject(const std::string& filename) {
     std::vector<std::string> keys;
     std::ifstream file(filename);
+
     if (file.is_open()) {
         std::string jsonStr((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         rapidjson::Document doc;
         doc.Parse(jsonStr.c_str());
-        cout << "getKeys function" << jsonStr;
+        cout << jsonStr;
         if (doc.IsArray() && !doc.Empty() && doc[0].IsObject()) {
             for (auto it = doc[0].MemberBegin(); it != doc[0].MemberEnd(); ++it) {
                 keys.push_back(it->name.GetString());
             }
         }
     }
+      else if (!file.is_open()) {
+        std::cerr << "Failed to open file: " << filename << std::endl;
+    }
     return keys;
-}*/
+}
 
 };
 #endif

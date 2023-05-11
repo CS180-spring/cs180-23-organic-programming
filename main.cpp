@@ -5,6 +5,9 @@
 #include "UserAccount.h"
 #include "filters.h"
 #include "rapidjson/filereadstream.h"
+#include "rapidjson/document.h"
+#include "rapidjson/istreamwrapper.h"
+#include "rapidjson/prettywriter.h"
 
 using namespace std;
 
@@ -67,7 +70,7 @@ void printMainMenu(vector<UserAccount> &accountList)
              << "a - Register account" << endl
              << "b - Login to account" << endl
              << "c - Reset Password" << endl
-             << "d - get json keys" << endl
+             << "d - Output JSON File" << endl
              << "q - Quit" << endl
              << endl
              << "Choose an option: " << endl;
@@ -126,15 +129,15 @@ void printMainMenu(vector<UserAccount> &accountList)
 
                     else if (menuChoice == 'c')
                     {
-                        /*Filters filters;
-                        std::vector<std::string> keys = filters.outputFirstDataSet("mangaCollection.json");
-                        for (const auto& key : keys) {
-                         std::cout << key << std::endl;
-
-                         }*/
+                  
                     }
                     else if (menuChoice == 'd')
                     {
+                    Filters filters;
+                    std::vector<std::string> keys = filters.getKeysFromFirstObject("mangaCollection.json");
+                    for (const auto& key : keys) {
+                    std::cout << key << std::endl;
+    }
                     }
 
                     else if (menuChoice == 'e')
@@ -150,22 +153,22 @@ void printMainMenu(vector<UserAccount> &accountList)
         {
             changePassword(accountList);
         }
-                        else if (choice == 'd'){/*
-                        Filters filters;
-                        cout << "getkeys";
-                        std::vector<std::string> keys = filters.outputFirstDataSet("mangaCollection.json");
-                        for (const auto& key : keys) {
-                         std::cout << key << std::endl;
-                         }*/
+        else if (choice == 'd'){
+        cout << "Please enter the JSON file name: ";
+        string filename;
+        cin >> filename;
+        Filters filters;
+        cout << "Below are the contents of " << filename << endl;
+        std::vector<std::string> keys = filters.getKeysFromFirstObject(filename);
+        for (const auto& key : keys) {
+            std::cout << key << std::endl;
+            }
                 }
     }
 }
 
 int main()
 {
-
-    Filters filters;
-    filters.outputFirstDataSet("mangaCollection.json");
     vector<UserAccount> accountList;
     printMainMenu(accountList);
 
