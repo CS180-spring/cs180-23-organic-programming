@@ -13,14 +13,14 @@ Authors:
 
 ## Interace Documentation
 * Using C++ to create a terminal shell to access the data 
-* ![UML for Menu Interface Structure](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/CS180%20-%20Menu%20Interface%20Structure%20(1).png)
+* ![UML for Menu Interface Structure](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/Documentation/CS180%20-%20Menu%20Interface%20Structure%20(1).png)
 
 ## Menu Interface
 * Access database using a two-phase menu structure. 
-* The first phase is the Log-in/Register, which traps the user until they have successfully logged in. 
-* The second phase is the Database Interface, allowing the verified user to access their databases, and use CRUD operations on them.
-* ![Menu Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/menuLogin.png)
-* ![Database Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/databaseMenu.png)
+* The first phase is the Log-in/Register, which prompts the user until they have successfully logged in. 
+* The second phase is the Database Interface, allowing the verified user to access their databases, and access their options within the Database.
+* ![Menu Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/Documentation/menuLoginCPP.PNG)
+* ![Database Interface Code](https://github.com/CS180-spring/cs180-23-organic-programming/blob/main/Documentation/databaseMenuCPP.PNG)
 
 ## Back End
 
