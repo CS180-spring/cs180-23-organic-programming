@@ -33,6 +33,6 @@ TEST(DatabaseTestCreateDirectory, testCreateDirectory) {
 TEST(DatabaseTestDeleteDirectory, testDeleteDirectory) {
     Database* db;
     db->createDirectory();
-    EXPECT_NO_THROW(db->deleteDirectory(), "Directory created successfully\n" );
+    EXPECT_NO_THROW(db->deleteDirectory());
 }
 
