@@ -66,11 +66,12 @@ void printMainMenu(vector<UserAccount> &accountList)
     char menuChoice;
     while (choice != 'q')
     {
-        cout << "MENU" << endl
+        cout << endl << "MENU" << endl
              << "a - Register account" << endl
              << "b - Login to account" << endl
              << "c - Reset Password" << endl
              << "d - Output JSON File" << endl
+             << "e - return object's Keys" << endl
              << "q - Quit" << endl
              << endl
              << "Choose an option: " << endl;
@@ -133,11 +134,6 @@ void printMainMenu(vector<UserAccount> &accountList)
                     }
                     else if (menuChoice == 'd')
                     {
-                    Filters filters;
-                    std::vector<std::string> keys = filters.getKeysFromFirstObject("mangaCollection.json");
-                    for (const auto& key : keys) {
-                    std::cout << key << std::endl;
-    }
                     }
 
                     else if (menuChoice == 'e')
@@ -153,18 +149,41 @@ void printMainMenu(vector<UserAccount> &accountList)
         {
             changePassword(accountList);
         }
+
         else if (choice == 'd'){
-        cout << "Please enter the JSON file name: ";
-        string filename;
-        cin >> filename;
-        Filters filters;
-        cout << "Below are the contents of " << filename << endl;
-        std::vector<std::string> keys = filters.getKeysFromFirstObject(filename);
-        for (const auto& key : keys) {
-            std::cout << key << std::endl;
-            }
+            cout << "Please enter the JSON file name: ";
+            string filename;
+            cin >> filename;
+            Filters filters;
+            cout << "Below are the contents of " << filename << endl;
+            std::vector<std::string> keys = filters.getKeysFromFirstObject(filename);
+            for (const auto& key : keys) {
+                std::cout << key << std::endl;
                 }
+         }
+
+        else if (choice == 'e'){
+            cout << "Please enter the JSON file name: ";
+            string filename;
+            cin >> filename;
+            cout << endl << "Below are the key names for your JSON objects:" << endl << endl;
+            // Load JSON from file
+            std::ifstream ifs(filename);
+            std::string json((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+
+            // Parse JSON
+            Document doc;
+            doc.Parse(json.c_str());
+
+            // Extract keys of first data set
+            const Value& manga = doc[0];
+            for (Value::ConstMemberIterator it = manga.MemberBegin(); it != manga.MemberEnd(); ++it) {
+            int i = 1;
+            std::cout <<". " << it->name.GetString() << std::endl;
+            i++;
+        }
     }
+}
 }
 
 int main()
