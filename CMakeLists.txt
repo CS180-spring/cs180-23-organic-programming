@@ -1,6 +1,9 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 
 project(OrganicDB)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ADD_SUBDIRECTORY(googletest)
 
@@ -10,8 +13,9 @@ include_directories(
 )
 
 ADD_EXECUTABLE(test
-    test.cpp
-    UserAccount.cpp
+    tests/test.cpp
+    Frontend/UserAccount.h
+    Backend/Database.h
 )
 
 TARGET_LINK_LIBRARIES(test gmock gtest gtest_main)
