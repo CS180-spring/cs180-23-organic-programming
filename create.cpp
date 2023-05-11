@@ -71,10 +71,10 @@ int main() {
     if(toupper(choice1) == 'N') {"Okay have a nice day! \n";}
     else 
     {
-        while(choice1 == 'Y')
+        while(toupper(choice1) == 'Y')
         {
             createFile();
-            std::cout << "Create another file?";
+            std::cout << "Create another file?(Y or N)";
             std::cin >> choice1;
         }
     }
@@ -87,9 +87,9 @@ int main() {
 
 void createFile()
 {
-    Document doc;
     std::string fileName;
     char choice;
+    Document doc;
     doc.SetArray(); //SetObject, SetArray - array for root of json file
 
     std::cout << "Name of file: ";
@@ -121,6 +121,7 @@ void createObject(Document& doc)
     int objectCount;
     int kpCount;  
     std::string keyInputTemp;
+    std::string valueInputTemp;
     std::string valueInput;
 
     std::cout << "Enter ammount of objects to add: ";
@@ -141,11 +142,12 @@ void createObject(Document& doc)
             std::cout << "Key: ";
             std::cin >> keyInputTemp;
             std::cout << "Value: ";
-            std::cin >> valueInput;
+            std::cin >> valueInputTemp;
             Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
+            Value valueInput(valueInputTemp.c_str(), valueInputTemp.size(), doc.GetAllocator());
             object.AddMember(keyInput, valueInput, doc.GetAllocator());
         }
-        doc.AddMember(objectName, object, doc.GetAllocator());
+    doc.PushBack(object, doc.GetAllocator());
     }
 }
 
