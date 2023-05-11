@@ -60,11 +60,11 @@ private:
     std::string fileName_;
 };
 
-//void createFile();
-//void createObject(Document& doc);
+void createFile();
+void createObject(Document& doc);
 void testSaveLoadExample();
 int main() {
-    /*char choice1;
+    char choice1;
     std::cout << "Create JSON file?(Y or N)";
     std::cin >> choice1;
     
@@ -78,19 +78,19 @@ int main() {
             std::cin >> choice1;
         }
     }
-    std::cout << "Goodbye!";*/
+    std::cout << "Goodbye!";
 
-    testSaveLoadExample();
+    //testSaveLoadExample();
     return 0;
 }
 
 
-/*void createFile()
+void createFile()
 {
     Document doc;
     std::string fileName;
     char choice;
-    doc.SetObject();
+    doc.SetArray(); //SetObject, SetArray - array for root of json file
 
     std::cout << "Name of file: ";
     std::cin >> fileName;
@@ -109,7 +109,7 @@ int main() {
         }
     }
 
-    JSONDatabase db(fileName + ".json");
+    JSONDatabase db(fileName);
     db.save(doc);
 }
 
@@ -131,23 +131,23 @@ void createObject(Document& doc)
 
     Value object(kObjectType);
 
-    for(int i = 0; i >= objectCount; i++)
+    for(int i = 0; i < objectCount; i++)
     {
         std::cout << "Enter ammount of key-value pairs for this object: ";
         std::cin >> kpCount;
         
-        for(int i = 0; i >= kpCount; i++)
+        for(int i = 0; i < kpCount; i++)
         {
             std::cout << "Key: ";
             std::cin >> keyInputTemp;
             std::cout << "Value: ";
             std::cin >> valueInput;
-            //Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
-            //object.AddMember(keyInput, valueInput, doc.GetAllocator());
+            Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
+            object.AddMember(keyInput, valueInput, doc.GetAllocator());
         }
-        //doc.AddMember(objectName, object, doc.GetAllocator());
+        doc.AddMember(objectName, object, doc.GetAllocator());
     }
-}*/
+}
 
 void testSaveLoadExample()
 {
