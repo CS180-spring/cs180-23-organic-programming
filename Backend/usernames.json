@@ -1,0 +1,62 @@
+[
+    {
+        "Department": "Sales",
+        "Firstname": "Rachel",
+        "Identifier": "9012",
+        "Lastname": "Booker",
+        "Location": "Manchester",
+        "One-timepassword": "12se74",
+        "Recoverycode": "rb9012",
+        "Username": "booker12"
+    },
+    {
+        "Department": "Depot",
+        "Firstname": "Laura",
+        "Identifier": "2070",
+        "Lastname": "Grey",
+        "Location": "London",
+        "One-timepassword": "04ap67",
+        "Recoverycode": "lg2070",
+        "Username": "grey07"
+    },
+    {
+        "Department": "Depot",
+        "Firstname": "Craig",
+        "Identifier": "4081",
+        "Lastname": "Johnson",
+        "Location": "London",
+        "One-timepassword": "30no86",
+        "Recoverycode": "cj4081",
+        "Username": "johnson81"
+    },
+    {
+        "Department": "Engineering",
+        "Firstname": "Mary",
+        "Identifier": "9346",
+        "Lastname": "Jenkins",
+        "Location": "Manchester",
+        "One-timepassword": "14ju73",
+        "Recoverycode": "mj9346",
+        "Username": "jenkins46"
+    },
+    {
+        "Department": "Engineering",
+        "Firstname": "Jamie",
+        "Identifier": "5079",
+        "Lastname": "Smith",
+        "Location": "Manchester",
+        "One-timepassword": "09ja61",
+        "Recoverycode": "js5079",
+        "Username": "smith79"
+    },
+    {
+        "Department": "Sales",
+        "Firstname": "Jamie",
+        "Identifier": "5060",
+        "Lastname": "Adams",
+        "Location": "Liverpool",
+        "One-timepassword": "08js60",
+        "Recoverycode": "ja60",
+        "Username": "adams60"
+    }
+]
