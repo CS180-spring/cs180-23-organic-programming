@@ -74,7 +74,7 @@ public:
 
         std::cout << "Create a new file?(Y or N)";
         std::cin >> choice;
-        checkInput(choice);
+        checkInputChar(choice);
 
         if(toupper(choice) == 'N') {"Okay have a nice day! \n";}
         else 
@@ -84,9 +84,9 @@ public:
                 std::cout << "Name of file: ";
                 std::cin >> fileName;
 
-                std::cout << "Would you like to add objects to your file?(Y or N)";
+                std::cout << "\nWould you like to add objects to your file?(Y or N)";
                 std::cin >> choice;
-                checkInput(choice);
+                checkInputChar(choice);
                 
                 if(toupper(choice) == 'N') {std::cout << "Okay have a nice day! \n";}
                 else
@@ -96,7 +96,7 @@ public:
                         createObject(doc);
                         std::cout << "Create another object? (Y or N)";
                         std::cin >> choice;
-                        checkInput(choice);
+                        checkInputChar(choice);
                     }
                 }
 
@@ -112,11 +112,12 @@ public:
         std::string objectNameTemp;
         Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
 
-        int objectCount;
+        int objectCount; 
         int kpCount;  
 
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
+        checkInputInt(objectCount);
         std::cout << "Object Name: ";
         std::cin >> objectNameTemp;
         std:: cout << std::endl;
@@ -138,6 +139,7 @@ public:
 
         std::cout << "Enter ammount of key-value pairs for this object: ";
         std::cin >> kpCount;
+        checkInputInt(kpCount);
         
         for(int i = 0; i < kpCount; i++)
         {
@@ -145,19 +147,34 @@ public:
             std::cin >> keyInputTemp;
             std::cout << "Value: ";
             std::cin >> valueInputTemp;
+
+
             Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
             Value valueInput(valueInputTemp.c_str(), valueInputTemp.size(), doc.GetAllocator());
             object.AddMember(keyInput, valueInput, doc.GetAllocator());
         }
     }
 
-    void checkInput(char &userInput)
+    void checkInputChar(char &userInput)
     {   
         do{
-            if(userInput != 'y' && userInput != 'Y' && userInput != 'n' && userInput != 'N') {validInput = false;}
+            if(userInput != 'y' && userInput != 'Y' && userInput != 'n' && userInput != 'N') {validInput = false;} else {validInput = true;}
             if (validInput == false) 
             {
-                std::cout << "Invalid Input! Please only input Y or N";
+                std::cout << "Invalid Input! Please only input Y or N: ";
+                std::cin >> userInput; 
+            }
+
+        }while(validInput == false);
+    }
+
+    void checkInputInt(int &userInput)
+    {   
+        do{
+            if(std::cin.fail()) {validInput = false;} else {validInput = true;}
+            if (validInput == false) 
+            {
+                std::cout << "Invalid Input! Please only input a numerical value: ";
                 std::cin >> userInput; 
             }
         }while(validInput == false);
