@@ -60,10 +60,117 @@ private:
     std::string fileName_;
 };
 
-void createFile();
-void createObject(Document& doc);
+class JFile
+{
+public:
+    JFile(){}
+
+    void createFile()
+    {
+        std::string fileName = " ";
+        char choice;
+        Document doc;
+        doc.SetArray(); //SetObject, SetArray - array for root of json file
+
+        std::cout << "Create a new file?(Y or N)";
+        std::cin >> choice;
+        checkInput(choice);
+
+        if(toupper(choice) == 'N') {"Okay have a nice day! \n";}
+        else 
+        {
+            while(toupper(choice) == 'Y')
+            {
+                std::cout << "Name of file: ";
+                std::cin >> fileName;
+
+                std::cout << "Would you like to add objects to your file?(Y or N)";
+                std::cin >> choice;
+                checkInput(choice);
+                
+                if(toupper(choice) == 'N') {std::cout << "Okay have a nice day! \n";}
+                else
+                {
+                    while(toupper(choice) != 'N')
+                    {
+                        createObject(doc);
+                        std::cout << "Create another object? (Y or N)";
+                        std::cin >> choice;
+                        checkInput(choice);
+                    }
+                }
+
+                fileName = fileName + ".json"; 
+                JSONDatabase db(fileName);
+                db.save(doc);
+            }
+        }
+    }
+
+    void createObject(Document& doc)
+    {
+        std::string objectNameTemp;
+        Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
+
+        int objectCount;
+        int kpCount;  
+
+        std::cout << "Enter ammount of objects to add: ";
+        std::cin >> objectCount;
+        std::cout << "Object Name: ";
+        std::cin >> objectNameTemp;
+        std:: cout << std::endl;
+
+        Value object(kObjectType);
+
+        for(int i = 0; i < objectCount; i++)
+        {
+            createKVP(doc, object);
+            doc.PushBack(object, doc.GetAllocator());
+        }
+    }
+
+    void createKVP(Document& doc, Value& object)
+    {
+        int kpCount; 
+        std::string keyInputTemp;
+        std::string valueInputTemp;
+
+        std::cout << "Enter ammount of key-value pairs for this object: ";
+        std::cin >> kpCount;
+        
+        for(int i = 0; i < kpCount; i++)
+        {
+            std::cout << "Key: ";
+            std::cin >> keyInputTemp;
+            std::cout << "Value: ";
+            std::cin >> valueInputTemp;
+            Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
+            Value valueInput(valueInputTemp.c_str(), valueInputTemp.size(), doc.GetAllocator());
+            object.AddMember(keyInput, valueInput, doc.GetAllocator());
+        }
+    }
+
+    void checkInput(char &userInput)
+    {   
+        do{
+            if(userInput != 'y' && userInput != 'Y' && userInput != 'n' && userInput != 'N') {validInput = false;}
+            if (validInput == false) 
+            {
+                std::cout << "Invalid Input! Please only input Y or N";
+                std::cin >> userInput; 
+            }
+        }while(validInput == false);
+    }
+
+private:
+    bool validInput = false;
+    std::string fileName_;
+};
+
 void testSaveLoadExample();
-int main() {
+
+/*int main() {
     char choice1;
     std::cout << "Create JSON file?(Y or N)";
     std::cin >> choice1;
@@ -82,73 +189,14 @@ int main() {
 
     //testSaveLoadExample();
     return 0;
-}
+}*/
 
+int main(){
+    JFile file;
+    file.createFile();
 
-void createFile()
-{
-    std::string fileName;
-    char choice;
-    Document doc;
-    doc.SetArray(); //SetObject, SetArray - array for root of json file
-
-    std::cout << "Name of file: ";
-    std::cin >> fileName;
-
-    std::cout << "Would you like to add objects to your file?(Y or N)";
-    std::cin >> choice;
-
-    if(toupper(choice) == 'N') {"Okay have a nice day! \n";}
-    else
-    {
-        while(choice != 'N')
-        {
-            createObject(doc);
-            std::cout << "Create another object? (Y or N)";
-            std::cin >> choice;
-        }
-    }
-
-    JSONDatabase db(fileName);
-    db.save(doc);
-}
-
-void createObject(Document& doc)
-{
-    std::string objectNameTemp;
-    Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
-
-    int objectCount;
-    int kpCount;  
-    std::string keyInputTemp;
-    std::string valueInputTemp;
-    std::string valueInput;
-
-    std::cout << "Enter ammount of objects to add: ";
-    std::cin >> objectCount;
-    std::cout << "Object Name: ";
-    std::cin >> objectNameTemp;
-    std:: cout << std::endl;
-
-    Value object(kObjectType);
-
-    for(int i = 0; i < objectCount; i++)
-    {
-        std::cout << "Enter ammount of key-value pairs for this object: ";
-        std::cin >> kpCount;
-        
-        for(int i = 0; i < kpCount; i++)
-        {
-            std::cout << "Key: ";
-            std::cin >> keyInputTemp;
-            std::cout << "Value: ";
-            std::cin >> valueInputTemp;
-            Value keyInput(keyInputTemp.c_str(), keyInputTemp.size(), doc.GetAllocator());
-            Value valueInput(valueInputTemp.c_str(), valueInputTemp.size(), doc.GetAllocator());
-            object.AddMember(keyInput, valueInput, doc.GetAllocator());
-        }
-    doc.PushBack(object, doc.GetAllocator());
-    }
+    //testSaveLoadExample();
+    return 0;
 }
 
 void testSaveLoadExample()
