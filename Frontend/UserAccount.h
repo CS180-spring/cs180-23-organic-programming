@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "../Backend/Database.h"
 
 using namespace std;
@@ -15,23 +16,12 @@ public:
     {
         this->username = "";
         this->password = "";
-        this->db = nullptr;
     }
 
     UserAccount(string username, string password)
     {
         this->username = username;
         this->password = password;
-        this->db = nullptr;
-    }
-
-    void setDatabase(Database* db)
-    {
-        if (db != nullptr) {
-            this->db = db;
-        } else {
-            // handle null pointer
-        }
     }
 
     void setUsername(string user)
@@ -54,15 +44,20 @@ public:
         return password;
     }
 
-    Database* getDatabase()
+    void insertDatabase(Database db)
     {
-        return db;
+        databases.push_back(db);
+    }
+
+    vector<Database> getDatabases()
+    {
+        return databases;
     }
 
 private:
     string username;
     string password;
-    Database* db;
+    vector<Database> databases;
 };
 
 #endif

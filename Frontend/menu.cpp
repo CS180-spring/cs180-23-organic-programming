@@ -1,4 +1,4 @@
-// CS 180 - Organic Programming // 
+// CS 180 - Organic Programming //
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,7 +12,7 @@ void userAccountMenu()
     cout << "[A] Login" << endl;
     cout << "[B] Register" << endl;
     cout << "[C] Reset Password" << endl;
-    
+
     cout << "[X] Quit" << endl;
     cout << "" << endl;
 }
@@ -81,7 +81,7 @@ void landingPageMenu()
     cout << "[C] Update" << endl;
     cout << "[D] Delete" << endl;
     cout << "[E] View" << endl;
-    
+
     cout << "[X] Quit" << endl;
     cout << "" << endl;
 }
@@ -111,8 +111,6 @@ void updateMenu()
     cout << "-= Verifying & Processing Database =-" << endl;
     cout << endl;
 
-    // Verify database here
-
     // If verified, print success
     cout << "Database successfully found." << endl;
     cout << endl;
@@ -121,11 +119,11 @@ void updateMenu()
     cout << "[A] Update" << endl;
     cout << "[B] Delete" << endl;
     cout << "[C] View" << endl;
-    
+
     cout << "[X] Quit" << endl;
 }
 
-void createMenu()
+void createMenu(UserAccount &account)
 {
     string databaseFile;
     cout << "Database FileName: ";
@@ -134,23 +132,35 @@ void createMenu()
     cout << "-= Verifying Database=-" << endl;
     cout << endl;
 
-    // Verify database here
+    fs::path dbDirectory = databaseFile.c_str();
+    if (fs::exists(dbDirectory))
+    {
+        cout << "Directory already exists\n";
+    }
+    else
+    {
 
-    // If verified, print success
-    cout << "Database name available." << endl;
-    cout << endl;
+        // If verified, print success
+        cout << "Database name available." << endl;
+        cout << endl;
 
-    cout << "Categories - " << endl;
-    cout << "Enter [X] when done." << endl;
+        cout << "Create Database record?" << endl;
+        cout << "[Y] Yes" << endl;
+        cout << "[N] No" << endl;
 
-    cout << "Create Database record?" << endl;
-    cout << "[Y] Yes" << endl;
-    cout << "[N] No" << endl;
-    
-    cout << "[X] Quit" << endl;
+        char choice;
+        cin >> choice;
+        cin.ignore();
+        if (choice == 'Y')
+        {
+            Database db(databaseFile);
+            account.insertDatabase(db);
+            db.createDirectory();
+        }
+    }
 }
 
-void deleteMenu()
+void deleteMenu(UserAccount &account)
 {
     string databaseFile;
     cout << "Database FileName: ";
@@ -158,34 +168,38 @@ void deleteMenu()
 
     cout << "-= Verifying & Processing Database =-" << endl;
     cout << endl;
-
-    // Verify database here
-
-    // If verified, print success
-    cout << "Database successfully found." << endl;
-    cout << endl;
-
-    cout << "Are you sure you want to delete" << databaseFile << "?" << endl;
-    cout << "[Y] Yes" << endl;
-    cout << "[N] No" << endl;
-
-    char userChoice;
-    cin >> userChoice;
-
-    if (userChoice == 'Y')
+    vector<Database> dbs = account.getDatabases();
+    for (auto i = dbs.begin(); i != dbs.end(); i++)
     {
-        cout << "Deleting database." << endl;
-        // Delete
-        cout << "Successfully deleted." << endl;
+        Database& db = *i;
+        if (db.getName() == databaseFile)
+        {
+            // If verified, print success
+            cout << "Database successfully found." << endl;
+            cout << endl;
+
+            cout << "Are you sure you want to delete " << databaseFile << "?" << endl;
+            cout << "[Y] Yes" << endl;
+            cout << "[N] No" << endl;
+
+            char userChoice;
+            cin >> userChoice;
+            cin.ignore();
+
+            if (userChoice == 'Y')
+            {
+                cout << "Deleting database." << endl;
+                db.deleteDirectory();
+                account.getDatabases().erase(i);
+            }
+            else
+            {
+                break;
+            }
+        }
     }
-    else
-    {
-        cout << "No longer deleting!" << endl;
-    }
-    
-    cout << "[A] Main Menu" << endl;
-    cout << "[X] Quit" << endl;
 }
+
 
 void viewMenu()
 {
@@ -215,7 +229,7 @@ void menu(vector<UserAccount> &accountList)
     char choice = 'p';
     char menuChoice;
     bool loggedIn = false;
-
+    UserAccount account;
     while (!loggedIn)
     {
         userAccountMenu();
@@ -224,11 +238,11 @@ void menu(vector<UserAccount> &accountList)
         cin.ignore();
 
         // LOG-IN
-        
-        if(choice == 'A')
+
+        if (choice == 'A')
         {
             // Log-in
-            UserAccount account;
+
             string username;
             string password;
             cout << "Enter your username: ";
@@ -245,19 +259,18 @@ void menu(vector<UserAccount> &accountList)
                         loggedIn = true;
                     }
                 }
-
             }
         }
 
-        else if(choice == 'B')
+        else if (choice == 'B')
         {
             registerAccount(accountList);
         }
-        else if(choice == 'C')
+        else if (choice == 'C')
         {
             changePassword(accountList);
         }
-        
+
         else
         {
             exit(0);
@@ -267,30 +280,31 @@ void menu(vector<UserAccount> &accountList)
     // If they were able to log-in successfully,
     // they would have broken the while loop
 
-    while(menuChoice != 'X')
+    while (menuChoice != 'X')
     {
         landingPageMenu();
         cout << "Choose an option: " << endl;
         cin >> menuChoice;
+        cin.ignore();
 
         // Database Menu
-        if(menuChoice == 'A')
+        if (menuChoice == 'A')
         {
-            createMenu();
+            createMenu(account);
         }
-        else if(menuChoice == 'B')
+        else if (menuChoice == 'B')
         {
             readMenu();
         }
-        else if(menuChoice == 'C')
+        else if (menuChoice == 'C')
         {
             updateMenu();
         }
-        else if(menuChoice == 'D')
+        else if (menuChoice == 'D')
         {
-            deleteMenu();
+            deleteMenu(account);
         }
-        else if(menuChoice == 'E')
+        else if (menuChoice == 'E')
         {
             viewMenu();
         }
@@ -299,9 +313,6 @@ void menu(vector<UserAccount> &accountList)
             exit(0);
         }
     }
-    
-
-
 }
 
 int main()

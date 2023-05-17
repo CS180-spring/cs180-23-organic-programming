@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <cstdlib>
 #include <filesystem>
+#include "Collection.h"
 
 using namespace std;
 using namespace rapidjson;
@@ -18,6 +19,7 @@ class Database
 {
 private:
     string name;
+    vector<Collection> collections;
 
 public:
     Database()
@@ -30,38 +32,37 @@ public:
         this->name = name;
     }
 
+    string getName()
+    {
+        return name;
+    }
+
+    void insertCollection(Collection collection)
+    {
+        collections.push_back(collection);
+    }
+
     void createDirectory()
     {
-        string databaseName = name;
-        databaseName.insert(0, "../");
-        fs::path dbDirectory = databaseName.c_str();
-        fs::create_directory(dbDirectory);
+        fs::path tmp = fs::current_path();
+        fs::create_directories(tmp / name / "Collection1");
 
-        if (fs::exists(dbDirectory))
+        if(fs::exists(tmp / name / "Collection1"))
         {
             cout << "Directory created successfully\n";
         }
-        // Create the example sub directories
-        fs::create_directory(dbDirectory / "Collection1");
-        fs::create_directory(dbDirectory / "Collection2");
-        fs::create_directory(dbDirectory / "Collection3");
-        
-        fs::current_path(dbDirectory);
-        cout << "The Current Path = " << fs::current_path() << endl;
     }
+
 
     void deleteDirectory()
     {
-        string databaseName = name;
-        databaseName.insert(0, "../");
-        fs::path dbDirectory = databaseName.c_str();
-        fs::remove_all(dbDirectory);
-
-        // Check if the directory exists
-        if (!fs::exists(dbDirectory))
+        fs::path tmp = fs::current_path();
+        uintmax_t n = fs::remove_all(tmp / name);
+        if (!fs::exists(tmp))
         {
             cout << "Directory deleted successfully\n";
         }
+        cout << "Deleted " << n << " files or directories\n";
     }
 };
 #endif
