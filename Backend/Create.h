@@ -12,7 +12,7 @@ class Create
 public:
     Create(){}
 
-    Document createFile()
+    Document buildFile()
     {
         Document doc;
         std::string choice;

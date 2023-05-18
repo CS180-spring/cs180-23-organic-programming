@@ -31,13 +31,14 @@ public:
             {
                 std::cout << "Name of file: ";
                 std::cin >> fileName;
-                newFile = create().createFile();
+                newFile = create().buildFile();
                 
                 read(fileName).save(newFile);
                 std::cout << "\nCreated the JSON file \"" << fileName << "\"\n";
                 
                 std::cout << "Create another file?(Y or N): ";
                 std::cin >> choice;
+                validator().checkInputChar(choice);
             }
             std::cout << "OKay have a nice day!";
         }
