@@ -49,6 +49,49 @@ void outputFirstDataSet(const std::string& filename) {
     firstDataSet.Accept(writer);
     std::cout << buffer.GetString() << std::endl;
 }*/
+
+void pathQueryValue(const std::string& filename){
+        std::ifstream file("mangaCollection.json");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file." << std::endl;
+        return -1;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string json = buffer.str();
+
+    rapidjson::Document document;
+    document.Parse(json.c_str());
+
+    int index;
+    std::string key;
+    std::cout << "Enter the index of the object: ";
+    std::cin >> index;
+    std::cout << "\nEnter the key: ";
+    std::cin >> key;
+
+    if (document.IsArray() && index >= 0 && index < document.Size()) {
+        if (document[index].HasMember(key.c_str())) {
+            std::cout << "\nThe value is: ";
+            std::cout << document[index][key.c_str()].GetString() << std::endl;
+        } else {
+            std::cout << "\nKey not found." << std::endl;
+        }
+    } else {
+        std::cout << "\nIndex out of range." << std::endl;
+    }
+}
+void outputJSON(const std::string& filename){
+    std::ifstream file(filename);
+
+    if (file.is_open()) {
+        std::string jsonStr((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+        rapidjson::Document doc;
+        doc.Parse(jsonStr.c_str());
+        cout << jsonStr;
+}
+}
 std::vector<std::string> getKeysFromFirstObject(const std::string& filename) {
     std::vector<std::string> keys;
     std::ifstream file(filename);
@@ -57,7 +100,7 @@ std::vector<std::string> getKeysFromFirstObject(const std::string& filename) {
         std::string jsonStr((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         rapidjson::Document doc;
         doc.Parse(jsonStr.c_str());
-       // cout << jsonStr;
+      ]
         if (doc.IsArray() && !doc.Empty() && doc[0].IsObject()) {
             for (auto it = doc[0].MemberBegin(); it != doc[0].MemberEnd(); ++it) {
                 keys.push_back(it->name.GetString());
@@ -104,7 +147,7 @@ void searchObject(string filename){
             obj["extra_comments"].IsString() && obj["extra_comments"].GetString() == extra_comments) {
             // If it does, print the object
             StringBuffer buffer;
-            Writer<StringBuffer> writer(buffer);
+            PrettyWriter<StringBuffer> writer(buffer);
             obj.Accept(writer);
             std::cout << buffer.GetString() << std::endl;
         }
