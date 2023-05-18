@@ -50,11 +50,38 @@ void outputFirstDataSet(const std::string& filename) {
     std::cout << buffer.GetString() << std::endl;
 }*/
 
+void pathQueryObject(const std::string& filename){
+    std::ifstream file("mangaCollection.json");
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file." << std::endl;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string json = buffer.str();
+
+    rapidjson::Document document;
+    document.Parse(json.c_str());
+
+    int index;
+    std::cout << "Enter the index of the object: ";
+    std::cin >> index;
+
+    if (document.IsArray() && index >= 0 && index < document.Size()) {
+        rapidjson::StringBuffer strbuf;
+        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(strbuf);
+        document[index].Accept(writer);
+
+        std::cout << "\nThe object is: ";
+        std::cout << strbuf.GetString() << std::endl;
+    } else {
+        std::cout << "\nIndex out of range." << std::endl;
+    }
+}
 void pathQueryValue(const std::string& filename){
         std::ifstream file("mangaCollection.json");
     if (!file.is_open()) {
         std::cerr << "Failed to open file." << std::endl;
-        return -1;
     }
 
     std::stringstream buffer;
@@ -100,7 +127,7 @@ std::vector<std::string> getKeysFromFirstObject(const std::string& filename) {
         std::string jsonStr((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
         rapidjson::Document doc;
         doc.Parse(jsonStr.c_str());
-      ]
+
         if (doc.IsArray() && !doc.Empty() && doc[0].IsObject()) {
             for (auto it = doc[0].MemberBegin(); it != doc[0].MemberEnd(); ++it) {
                 keys.push_back(it->name.GetString());
