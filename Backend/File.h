@@ -3,57 +3,51 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
+#include "Create.h"
+#include "Read.h"
+
+using namespace rapidjson;
 
 class File {
 public:
-    File(const std::string& fileName) : fileName_(fileName) {}
+    File(const std::string& fileName_) : fileName(fileName_) {}
+    File(){}
 
-    bool save(const Document& doc) 
+    void createFile()
     {
-        // Serialize the JSON document to a string
-        StringBuffer buffer;
-        Writer<StringBuffer> writer(buffer);
-        doc.Accept(writer);
-        std::string jsonStr = buffer.GetString();
+        Document newFile;
+        newFile.SetArray(); //SetObject, SetArray - array for root of json file
+        fileName = " ";
+        std::string choice;
 
-        // Write the JSON string to a file
-        std::ofstream outFile(fileName_);
-        if (outFile.is_open()) {
-            outFile << jsonStr;
-            outFile.close();
-            return true;
+        std::cout << "Create a new file?(Y or N): ";
+        std::cin >> choice;
+        validator().checkInputChar(choice);
+
+        if(choice == "N" || choice == "n") {std::cout << "Okay have a nice day! \n";}
+        else 
+        {
+            while(choice == "Y" || choice == "y")
+            {
+                std::cout << "Name of file: ";
+                std::cin >> fileName;
+                newFile = create().createFile();
+                
+                read(fileName).save(newFile);
+                std::cout << "\nCreated the JSON file \"" << fileName << "\"\n";
+                
+                std::cout << "Create another file?(Y or N): ";
+                std::cin >> choice;
+            }
+            std::cout << "OKay have a nice day!";
         }
-        return false;
-    }
-
-    bool load(Document& doc) 
-    {
-        // Read the JSON string from the file
-        std::ifstream inFile(fileName_);
-        if (inFile.is_open()) {
-            std::string fileStr((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
-
-            // Parse the JSON string into a new document
-            doc.Parse(fileStr.c_str());
-            inFile.close();
-            return true;
-        }
-        return false;
-    }
-
-    void display(Document& doc, File crud) 
-    {
-        // Load the JSON document from the database
-        Document newDoc;
-        crud.load(newDoc);
-
-        // Access the data in the new document
-        const Value& test = newDoc["test"]["test"];
-
-        // Print the data to the console
-        std::cout << "Hello: " << test.GetString() << std::endl;
     }
 
 private:
-    std::string fileName_;
+    std::string fileName;
+    Validate validator();
+
+protected:
+    Create create(); 
+    Read read(std::string fileName);
 };
