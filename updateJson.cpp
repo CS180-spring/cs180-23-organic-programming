@@ -34,16 +34,18 @@ void updateJson(){
     cout<<"\nEnter the New Value to Update Object With: ";
     cin >> updatedValue;
 
-    //Create value pointer to query rapidJson style JsonPath Query
+    //Create value pointer to query rapidJson style JsonPath Query for One key:value pair.
+    //further implement to accomodate editing multiple multiple key values pairs
     Value* result = Pointer(rapidJsonPath).Get(jsonFile);
 
-    if (result && result->IsString()){
+    //Add further implementation to check/ validte for strings,ints and other types of data
+    if (result->IsString()){        //check the value to be a string
         result->SetString(updatedValue.c_str(),updatedValue.length(),jsonFile.GetAllocator());
     }
     else cout<<"\nObject's Value Could Not be Found"<<endl;
-
-    /*
-    ofstream outFile("usernames.json");
+    
+    
+    ofstream outFile("usernames.json"); //Edit this to pass a variable rather than hard code
     if (!outFile.is_open()) {
         cerr<< "Error: Failed to open output file" << endl;
         return;
@@ -55,7 +57,7 @@ void updateJson(){
     jsonFile.Accept(writer);
     outFile << buffer.GetString() << endl;
     outFile.close();
-    */
+   
 }
 string readJson(){
     //Recieve Filename from User
