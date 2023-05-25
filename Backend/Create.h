@@ -28,7 +28,7 @@ public:
             while(choice == "Y" || choice == "y")
             {
                 createObject(doc);
-                std::cout << "Create another object? (Y or N): ";
+                std::cout << "\nCreate another object? (Y or N): ";
                 std::cin >> choice;
                 validator.checkInputChar(choice);
                 std::cout << std::endl;
@@ -57,9 +57,11 @@ public:
 
         for(int i = 0; i < objectCount; i++)
         {
-            std::cout << "Object " << (i+1) << ": " << objectNameTemp << std::endl;
+            std::cout << "=============================================================\n";
+            std::cout << "Object " << (i+1) << ": " << objectNameTemp;
+            std::cout << "\n=============================================================";
             createKVP(doc, object);
-            std::cout << "Created object: " << objectNameTemp;
+            std::cout << "Created object: " << objectNameTemp << std::endl;
             doc.PushBack(object, doc.GetAllocator());
         }
     }
@@ -70,7 +72,7 @@ public:
         std::string keyInputTemp;
         std::string valueInputTemp;
 
-        std::cout << "\n\nEnter ammount of key-value pairs for this object: ";
+        std::cout << "\nEnter ammount of key-value pairs for this object: ";
         std::cin >> kpCount;
         validator.checkInputInt(kpCount);
         
