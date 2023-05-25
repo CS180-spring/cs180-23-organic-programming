@@ -50,6 +50,47 @@ void outputFirstDataSet(const std::string& filename) {
     std::cout << buffer.GetString() << std::endl;
 }*/
 
+void checkValueIsObject(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open file." << std::endl;
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string json = buffer.str();
+
+    rapidjson::Document document;
+    document.Parse(json.c_str());
+
+    int index;
+    std::string key;
+    std::cout << "Enter the index of the object: ";
+    std::cin >> index;
+    std::cout << "\nEnter the key: ";
+    std::cin >> key;
+
+    if (document.IsArray() && index >= 0 && index < document.Size()) {
+        if (document[index].HasMember(key.c_str())) {
+            if (document[index][key.c_str()].IsObject()) {
+                rapidjson::StringBuffer strbuf;
+                rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(strbuf);
+                document[index][key.c_str()].Accept(writer);
+
+                std::cout << "\nThe value is an object: ";
+                std::cout << strbuf.GetString() << std::endl;
+            } else {
+                std::cout << "\nThe value is not an object." << std::endl;
+            }
+        } else {
+            std::cout << "\nKey not found." << std::endl;
+        }
+    } else {
+        std::cout << "\nIndex out of range." << std::endl;
+    }
+}
+
+
 void pathQueryObject(const std::string& filename){
     std::ifstream file("mangaCollection.json");
     if (!file.is_open()) {
@@ -67,9 +108,9 @@ void pathQueryObject(const std::string& filename){
     std::cout << "Enter the index of the object: ";
     std::cin >> index;
 
-    if (document.IsArray() && index >= 0 && index < document.Size()) {
+    if (document.IsArray() && index >= 0 && index < document.Size()) {              // compare index to size of array
         rapidjson::StringBuffer strbuf;
-        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(strbuf);
+        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(strbuf);            
         document[index].Accept(writer);
 
         std::cout << "\nThe object is: ";
