@@ -1,3 +1,5 @@
+#ifndef CREATE_H
+#define CREATE_H
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
@@ -91,8 +93,4 @@ private:
     std::string fileName_;
 };
 
-
-
-
-
-
+#endif

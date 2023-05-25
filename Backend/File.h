@@ -1,3 +1,5 @@
+#ifndef FILE_H
+#define FILE_H
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
@@ -51,3 +53,5 @@ protected:
     Create create(); 
     Read read(std::string fileName);
 };
+
+#endif

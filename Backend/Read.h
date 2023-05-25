@@ -1,7 +1,9 @@
+#ifndef READ_H
+#define READ_H
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
-#include "rapidjson/writer.h"
+#include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
 
 using namespace rapidjson;
@@ -39,8 +41,10 @@ public:
             inFile.close();
             return true;
         }
-        return false;
+        else return false;
     }
 private:
     std::string fileName_;
 };
+
+#endif

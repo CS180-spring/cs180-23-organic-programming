@@ -1,3 +1,5 @@
+#ifndef VALIDATE_H
+#define VALIDATE_H
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -47,3 +49,5 @@ public:
 private:
     bool validInput = false;
 };
+
+#endif
