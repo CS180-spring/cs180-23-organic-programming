@@ -5,6 +5,8 @@ project(OrganicDB)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+
 ADD_SUBDIRECTORY(googletest)
 
 include_directories(
@@ -16,7 +18,9 @@ ADD_EXECUTABLE(test
     tests/test.cpp
     Frontend/UserAccount.h
     Backend/Database.h
+    Backend/Collection.h
 )
+
 
 TARGET_LINK_LIBRARIES(test gmock gtest gtest_main)
 TARGET_COMPILE_DEFINITIONS(test PRIVATE gtest_disable_pthreads=ON)
