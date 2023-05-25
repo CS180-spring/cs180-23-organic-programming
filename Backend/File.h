@@ -5,9 +5,11 @@
 #include "rapidjson/stringbuffer.h"
 #include "Create.h"
 #include "Read.h"
+//c++: aspb
 
 using namespace rapidjson;
 
+//Composition class for all CRUD operations
 class File {
 public:
     File(const std::string& fileName_) : fileName(fileName_) {}
@@ -15,14 +17,14 @@ public:
 
     void createFile()
     {
+        fileName = " ";
         Document newFile;
         newFile.SetArray(); //SetObject, SetArray - array for root of json file
-        fileName = " ";
         std::string choice;
 
         std::cout << "Create a new file?(Y or N): ";
         std::cin >> choice;
-        validator().checkInputChar(choice);
+        //validator.checkInputChar(choice);
 
         if(choice == "N" || choice == "n") {std::cout << "Okay have a nice day! \n";}
         else 
@@ -31,13 +33,15 @@ public:
             {
                 std::cout << "Name of file: ";
                 std::cin >> fileName;
-                newFile = create().createFile();
+                newFile = create.buildFile(); //usage of Create member 
                 
-                read(fileName).save(newFile);
+                read.read(fileName);
+                read.save(newFile); //usage of Read member
                 std::cout << "\nCreated the JSON file \"" << fileName << "\"\n";
                 
                 std::cout << "Create another file?(Y or N): ";
                 std::cin >> choice;
+                //validator().checkInputChar(choice);
             }
             std::cout << "OKay have a nice day!";
         }
@@ -45,9 +49,9 @@ public:
 
 private:
     std::string fileName;
-    Validate validator();
 
 protected:
-    Create create(); 
-    Read read(std::string fileName);
+    Create create; 
+    Read read;
+    Validate validator;
 };
