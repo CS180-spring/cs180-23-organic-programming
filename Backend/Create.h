@@ -31,6 +31,7 @@ public:
                 std::cout << "Create another object? (Y or N): ";
                 std::cin >> choice;
                 validator.checkInputChar(choice);
+                std::cout << std::endl;
             }
         }
     
@@ -46,16 +47,19 @@ public:
 
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
-        validator.checkInputInt(objectCount);
-        std::cout << "Object Name: ";
+
+        //validator.checkInputInt(objectCount);
+        std::cout << "Object Name:";
         std::cin >> objectNameTemp;
-        std:: cout << std::endl;
+        std::cout << std::endl;
 
         Value object(kObjectType);
 
         for(int i = 0; i < objectCount; i++)
         {
+            std::cout << "Object " << (i+1) << ": " << objectNameTemp << std::endl;
             createKVP(doc, object);
+            std::cout << "Created object: " << objectNameTemp;
             doc.PushBack(object, doc.GetAllocator());
         }
     }
@@ -66,15 +70,15 @@ public:
         std::string keyInputTemp;
         std::string valueInputTemp;
 
-        std::cout << "Enter ammount of key-value pairs for this object: ";
+        std::cout << "\n\nEnter ammount of key-value pairs for this object: ";
         std::cin >> kpCount;
         validator.checkInputInt(kpCount);
         
         for(int i = 0; i < kpCount; i++)
         {
-            std::cout << "Key: ";
+            std::cout << "Key" << "(" << (i+1) << "): ";
             std::cin >> keyInputTemp;
-            std::cout << "Value: ";
+            std::cout << "Value" << "(" << (i+1) << "): ";
             std::cin >> valueInputTemp;
 
 
