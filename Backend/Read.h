@@ -8,7 +8,13 @@ using namespace rapidjson;
 
 class Read {
 public:
-    Read(const std::string& fileName) : fileName_(fileName) {}
+    Read(){}
+    
+    void read(std::string& fileName) 
+    {
+        fileName_ = fileName;
+    }
+
     bool save(const Document& doc) 
     {
         // Serialize the JSON document to a string

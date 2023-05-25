@@ -43,7 +43,6 @@ public:
         Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
 
         int objectCount; 
-        int kpCount;  
 
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
