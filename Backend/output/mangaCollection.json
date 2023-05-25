@@ -30,7 +30,21 @@
         "volume_number": "1",
         "mangaka_name": "Tite Kubo",
         "publisher_name": "Shueisha",
-        "print_edition": "First",
+        "print_edition": {
+            "manga_name": "Fullmetal Alchemist",
+            "volume_number": {
+                "manga_name": "Attack on Titan",
+                "volume_number": "1",
+                "mangaka_name": "Hajime Isayama",
+                "publisher_name": "Kodansha",
+                "print_edition": "First",
+                "extra_comments": "Gripping, dark story with a unique setting."
+            },
+            "mangaka_name": "Hiromu Arakawa",
+            "publisher_name": "Square Enix",
+            "print_edition": "First",
+            "extra_comments": "Fantasy series with well-developed characters."
+        },
         "extra_comments": "Great art and exciting battles."
     },
     "publisher_name": "Shueisha",

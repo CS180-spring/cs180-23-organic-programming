@@ -50,6 +50,21 @@ void outputFirstDataSet(const std::string& filename) {
     std::cout << buffer.GetString() << std::endl;
 }*/
 
+void printNestedObjects(const rapidjson::Value& value) {
+    if (value.IsObject()) {
+        rapidjson::StringBuffer strbuf;
+        rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(strbuf);
+        value.Accept(writer);
+
+        std::cout << "\nNested object found: ";
+        std::cout << strbuf.GetString() << std::endl;
+
+        for (auto& m : value.GetObject()) {
+            printNestedObjects(m.value);
+        }
+    }
+}
+
 void checkValueIsObject(const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -79,6 +94,8 @@ void checkValueIsObject(const std::string& filename) {
 
                 std::cout << "\nThe value is an object: ";
                 std::cout << strbuf.GetString() << std::endl;
+
+                printNestedObjects(document[index][key.c_str()]);
             } else {
                 std::cout << "\nThe value is not an object." << std::endl;
             }
@@ -89,6 +106,7 @@ void checkValueIsObject(const std::string& filename) {
         std::cout << "\nIndex out of range." << std::endl;
     }
 }
+
 
 
 void pathQueryObject(const std::string& filename){
