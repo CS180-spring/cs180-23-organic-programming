@@ -126,44 +126,6 @@ class Update : public Search{
             }
             delete []jsonPath;
         }
-        /*
-        void updateJson(){
-            double updatedNumVal;
-            string jsonPath,updatedStringVal;
-            const char* rapidJsonPath;
-
-            //Create Document Object (DOM) to Parse
-            Document jsonFile;
-            jsonFile.Parse(fileStr.c_str());
-
-            //Prompt User to enter JSONPath Query
-            //UPDATE to Prompt JSON path in FIle.h and pass along to CRUD ops
-            
-            cout<<"\nEnter the JsonPath: " ;
-            cin >> jsonPath;
-            rapidJsonPath= formatJsonPath(jsonPath);
-
-            //Create value pointer to query rapidJson style JsonPath Query for One key:value pair.
-            try{
-                result = Pointer(rapidJsonPath).Get(jsonFile);
-                if(result){ //check if Value object is Valid in provided JsonPath
-                    if (result->IsString()) {  //check the value to be a string
-                        cout<<"\nEnter Updated Value: ";
-                        cin >> updatedStringVal;
-                        result->SetString(updatedStringVal.c_str(),updatedStringVal.length(),jsonFile.GetAllocator());
-                    }else if (result->IsNumber()){
-                        cout<<"\nEnter Updated Value: ";
-                        cin >> updatedNumVal;
-                        result->SetDouble(updatedNumVal);
-                    }else cout<<"Value Field is Not a String or Number"<<endl;
-                }else throw invalid_argument("JsonPath is either incorrect or does not exist in file");
-            }catch(invalid_argument &error){
-                cerr<<error.what()<<endl;
-                return; 
-            }
-            writeUpdate(file);      //call helper function to write the update
-            delete []rapidJsonPath;
-        }*/
         void setJsonStr(string parsedStr){ //set the JSON string after file parse
             this->fileStr= parsedStr;
         }
