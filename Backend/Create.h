@@ -48,7 +48,6 @@ public:
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
 
-        //Value object(kObjectType);
 
         for(int i = 0; i < objectCount; i++)
         {
@@ -70,7 +69,6 @@ public:
             if(doc.IsArray()){
                 doc.PushBack(object, doc.GetAllocator());
             }else if(doc.IsObject()){
-
                 Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
                 doc.AddMember(objectName,object,doc.GetAllocator());
             }

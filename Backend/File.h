@@ -16,6 +16,7 @@
 using namespace rapidjson;
 
 //Composition class for all CRUD operations
+//Composition class for all CRUD operations
 class File {
     private:
         Document jsonDoc;
