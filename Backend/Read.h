@@ -1,7 +1,9 @@
+#ifndef READ_H
+#define READ_H
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
-#include "rapidjson/writer.h"
+#include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
 
 using namespace rapidjson;
@@ -17,36 +19,41 @@ public:
 
     bool save(const Document& doc) 
     {
+        // Check outputfile status- Write the JSON string to a file
+        std::ofstream outFile(fileName_);
+        if (!outFile.is_open()) {
+            std::cerr<< "\nError: Failed to open output file" << std::endl;
+            return false;
+        }
+
         // Serialize the JSON document to a string
         StringBuffer buffer;
-        Writer<StringBuffer> writer(buffer);
+        PrettyWriter<StringBuffer> writer(buffer);
         doc.Accept(writer);
-        std::string jsonStr = buffer.GetString();
-
-        // Write the JSON string to a file
-        std::ofstream outFile(fileName_);
-        if (outFile.is_open()) {
-            outFile << jsonStr;
-            outFile.close();
-            return true;
-        }
-        return false;
+        outFile << buffer.GetString() << std::endl;
+        outFile.close();
+        return true;
     }
 
-    bool load(Document& doc) 
+    std::string load(Document& doc) 
     {
         // Read the JSON string from the file
         std::ifstream inFile(fileName_);
-        if (inFile.is_open()) {
-            std::string fileStr((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
-
-            // Parse the JSON string into a new document
-            doc.Parse(fileStr.c_str());
-            inFile.close();
-            return true;
+        if (!inFile.is_open()) {
+            std::cerr<< "\nError: Failed to open File" << std::endl;
+            return "";
         }
-        return false;
+
+        //Read Contents of the JSON file into a string using a string object
+        std::string jsonStr((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+
+        // Parse the JSON string into a new document
+        doc.Parse(jsonStr.c_str());
+        inFile.close();
+        
+        return jsonStr;
     }
 private:
     std::string fileName_;
 };
+#endif

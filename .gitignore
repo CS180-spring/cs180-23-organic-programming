@@ -1,6 +1,6 @@
 # Folders
 .github/
-.vscode/
-.gitmodules/
 
 # Files
+.vscode/
+.gitmodules/

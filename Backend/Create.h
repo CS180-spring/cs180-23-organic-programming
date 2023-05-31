@@ -1,3 +1,5 @@
+#ifndef CREATE_H
+#define CREATE_H
 #include <iostream>
 #include <fstream>
 #include "rapidjson/document.h"
@@ -40,29 +42,36 @@ public:
 
     void createObject(Document& doc)
     {
+        int objectCount;
         std::string objectNameTemp;
-        Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
-
-        int objectCount; 
 
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
 
-        //validator.checkInputInt(objectCount);
-        std::cout << "Object Name:";
-        std::cin >> objectNameTemp;
-        std::cout << std::endl;
-
-        Value object(kObjectType);
 
         for(int i = 0; i < objectCount; i++)
         {
-            std::cout << "=============================================================\n";
+            //Create Object Name and include in JSON File (DOM)
+            std::cout << "\n\nObject Name:";
+            std::cin >> objectNameTemp;
+            std::cout << std::endl;
+
+            Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
+            Value object(kObjectType);
+            
+            std::cout << "-------------------------------------------------------------\n";
             std::cout << "Object " << (i+1) << ": " << objectNameTemp;
-            std::cout << "\n=============================================================";
+            std::cout << "\n-------------------------------------------------------------";
             createKVP(doc, object);
             std::cout << "Created object: " << objectNameTemp << std::endl;
-            doc.PushBack(object, doc.GetAllocator());
+            
+            //Check Root of JSON File and Add Newly Created Objects Respectively
+            if(doc.IsArray()){
+                doc.PushBack(object, doc.GetAllocator());
+            }else if(doc.IsObject()){
+                Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
+                doc.AddMember(objectName,object,doc.GetAllocator());
+            }
         }
     }
 
@@ -96,8 +105,4 @@ private:
     std::string fileName_;
 };
 
-
-
-
-
-
+#endif
