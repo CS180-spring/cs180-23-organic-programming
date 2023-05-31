@@ -33,11 +33,12 @@ public:
             }
         }while(validInput == false);*/
         
-        /*if(std::cin.fail()){validInput = false;}
+        //if(std::cin.fail()){validInput = false;}
 
+        /*if(userInput == )
         while(validInput = false)
         {
-            std::cout << "Invalid! Please only input a numerical value: ";
+            std::cout << "Invalid! Please only input a numerical value greater than 0: ";
             while(std::cin.fail())
             {
                 std::cin >> userInput;

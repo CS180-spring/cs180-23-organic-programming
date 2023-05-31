@@ -14,7 +14,7 @@ class Create
 public:
     Create(){}
 
-    Document createFile()
+    Document buildFile()
     {
         Document doc;
         std::string choice;
@@ -30,9 +30,10 @@ public:
             while(choice == "Y" || choice == "y")
             {
                 createObject(doc);
-                std::cout << "Create another object? (Y or N): ";
+                std::cout << "\nCreate another object? (Y or N): ";
                 std::cin >> choice;
                 validator.checkInputChar(choice);
+                std::cout << std::endl;
             }
         }
     
@@ -41,25 +42,38 @@ public:
 
     void createObject(Document& doc)
     {
+        int objectCount;
         std::string objectNameTemp;
-        Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
-
-        int objectCount; 
-        int kpCount;  
 
         std::cout << "Enter ammount of objects to add: ";
         std::cin >> objectCount;
-        validator.checkInputInt(objectCount);
-        std::cout << "Object Name: ";
-        std::cin >> objectNameTemp;
-        std:: cout << std::endl;
 
-        Value object(kObjectType);
+        //Value object(kObjectType);
 
         for(int i = 0; i < objectCount; i++)
         {
+            //Create Object Name and include in JSON File (DOM)
+            std::cout << "\n\nObject Name:";
+            std::cin >> objectNameTemp;
+            std::cout << std::endl;
+
+            Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
+            Value object(kObjectType);
+            
+            std::cout << "-------------------------------------------------------------\n";
+            std::cout << "Object " << (i+1) << ": " << objectNameTemp;
+            std::cout << "\n-------------------------------------------------------------";
             createKVP(doc, object);
-            doc.PushBack(object, doc.GetAllocator());
+            std::cout << "Created object: " << objectNameTemp << std::endl;
+            
+            //Check Root of JSON File and Add Newly Created Objects Respectively
+            if(doc.IsArray()){
+                doc.PushBack(object, doc.GetAllocator());
+            }else if(doc.IsObject()){
+
+                Value objectName(objectNameTemp.c_str(), objectNameTemp.size(), doc.GetAllocator());
+                doc.AddMember(objectName,object,doc.GetAllocator());
+            }
         }
     }
 
@@ -69,15 +83,15 @@ public:
         std::string keyInputTemp;
         std::string valueInputTemp;
 
-        std::cout << "Enter ammount of key-value pairs for this object: ";
+        std::cout << "\nEnter ammount of key-value pairs for this object: ";
         std::cin >> kpCount;
         validator.checkInputInt(kpCount);
         
         for(int i = 0; i < kpCount; i++)
         {
-            std::cout << "Key: ";
+            std::cout << "Key" << "(" << (i+1) << "): ";
             std::cin >> keyInputTemp;
-            std::cout << "Value: ";
+            std::cout << "Value" << "(" << (i+1) << "): ";
             std::cin >> valueInputTemp;
 
 
