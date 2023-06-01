@@ -1,0 +1,62 @@
+[
+    {
+        "Department": "Sales",
+        "Firstname": "Craig",
+        "ID": "4081",
+        "Lastname": "Johnson",
+        "City": "Portland",
+        "Initial_Password": "30no86",
+        "Recoverycode": "cj4081",
+        "LoginName": "cjohnson53"
+    },
+    {
+        "Department": "Engineering",
+        "Firstname": "Mary",
+        "ID": "9346",
+        "Lastname": "Jenkins",
+        "City": "Manchester",
+        "Initial_Password": "14ju73",
+        "Recoverycode": "mj9346",
+        "Username": "mjenkins46"
+    },
+    {
+        "Department": "Engineering",
+        "Firstname": "Jamie",
+        "ID": "5079",
+        "Lastname": "Smith",
+        "City": "Manchester",
+        "Initial_Password": "09ja61",
+        "Recoverycode": "js5079",
+        "Username": "smith79"
+    },
+    {
+        "Department": "Sales",
+        "Firstname": "Jamie",
+        "ID": "5060",
+        "Lastname": "Adams",
+        "City": "Liverpool",
+        "Initial_Password": "08js60",
+        "Recoverycode": "ja60",
+        "Username": "adams60"
+    },
+    {
+        "Department": "Depot",
+        "Firstname": "Sylvie",
+        "ID": "5060",
+        "Lastname": "Addison",
+        "City": "Chelsea",
+        "Initial_Password": "08js60",
+        "Recoverycode": "ja60",
+        "Username": "sAddison84"
+    },
+    {
+        "Department": "Depot",
+        "Firstname": "Kyler",
+        "ID": "5060",
+        "Lastname": "Sparks",
+        "City": "Tottenham",
+        "Initial_Password": "08js60",
+        "Recoverycode": "ja60",
+        "Username": "sSparks30"
+    }
+]
