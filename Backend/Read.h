@@ -2,6 +2,7 @@
 #define READ_H
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include "rapidjson/document.h"
 #include "rapidjson/prettywriter.h"
 #include "rapidjson/stringbuffer.h"
@@ -12,15 +13,16 @@ class Read {
 public:
     Read(){}
     
-    void read(std::string& fileName) 
+    void read(std::string& fileName, Database &db, fs::path path) 
     {
-        fileName_ = fileName;
+        fs::path finalPath = path / db.getName()/ fileName;
+        file = finalPath.string();
     }
 
     bool save(const Document& doc) 
     {
         // Check outputfile status- Write the JSON string to a file
-        std::ofstream outFile(fileName_);
+        std::ofstream outFile(file.c_str());
         if (!outFile.is_open()) {
             std::cerr<< "\nError: Failed to open output file" << std::endl;
             return false;
@@ -38,7 +40,7 @@ public:
     std::string load(Document& doc) 
     {
         // Read the JSON string from the file
-        std::ifstream inFile(fileName_);
+        std::ifstream inFile(file.c_str());
         if (!inFile.is_open()) {
             std::cerr<< "\nError: Failed to open File" << std::endl;
             return "";
@@ -54,6 +56,6 @@ public:
         return jsonStr;
     }
 private:
-    std::string fileName_;
+    std::string file;
 };
 #endif

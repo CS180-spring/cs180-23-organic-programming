@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 #include <vector>
 #include <algorithm>
 #include <map>
@@ -39,15 +40,19 @@ class CSV {
         //Default Constructor
         CSV(){}
 
-        void convertCSV(){
-            string input_file, output_file,extension;
+        void convertCSV(Database &db,fs::path path){
+            string input_file,output_file,extension;
+            fs::path finalPath;
 
             cout<< "Enter your Input Filename: ";
             cin >> input_file;
+            
+            finalPath = path / db.getName()/ input_file;
+            string inptfile = finalPath.string();
 
             //Open Input file and check if open
-            ifstream inFile(input_file);
-            if (!inFile.is_open()) {
+            ifstream inFile(inptfile.c_str());
+            if (!inFile.is_open()){
                 cerr<< "Error: Failed to open input file" << endl;
                 return;
             }
@@ -77,8 +82,11 @@ class CSV {
             extension= ".json";
             output_file = input_file.replace(input_file.find(".csv"),5,extension);
             
+            finalPath = path / db.getName()/ output_file;
+            string outptfile = finalPath.string();
+            
             //Open Output file and check if open
-            ofstream outFile(output_file);
+            ofstream outFile(outptfile.c_str());
             if (!outFile.is_open()) {
                 cerr<< "Error: Failed to open Output file" << endl;
                 return;
