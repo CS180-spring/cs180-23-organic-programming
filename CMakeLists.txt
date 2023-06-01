@@ -16,7 +16,6 @@ include_directories(
 
 ADD_EXECUTABLE(test
     tests/test.cpp
-    
 )
 #ADD_EXECUTABLE(backEndTest
    # Backend/backEndTest.cpp
