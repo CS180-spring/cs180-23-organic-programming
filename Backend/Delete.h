@@ -97,16 +97,9 @@ class Delete : public Search{
                 return; 
             }
         }
-        void deleteJSONfile(string &file,Database &db,fs::path path){
-            // Convert std::string to C-style string
-            //const char* cStrFilename = file.c_str();
-            
+        void deleteJSONfile(string &file,Database &db,fs::path path){          
             fs::path finalPath = path / db.getName()/ file;
             string removeFile = finalPath.string();
-            //int val;
-            //val= remove(cStrFilename);
-
-            //cout<<"Value of Remove ="<<val<<endl;
 
             //Delete the file
             if (remove(removeFile.c_str()) != 0) cout<< "\nFailed to delete the file.\n"<<endl;
