@@ -252,7 +252,7 @@ class File {
                     break;
                 }
                 case 6:
-                    remove.deleteJSONfile(fileName);
+                    remove.deleteJSONfile(this->fileName,db,this->frontEndPath);
                     break;
                 default:
                     cout<<"\nInvalid Choice"<<endl;
@@ -295,14 +295,8 @@ class File {
         }
         void convertFile(Database &db){
             cout<<"\nConverting CSV ---> JSON\n--------------------------------"<<endl<<endl;
-            //readCSVFile(db,file);
             csv.convertCSV(db,this->frontEndPath);
         }
-        // void readCSVFile(Database &db,string &file){
-        //     std::cout << "Name of file: ";
-        //     std::cin >> file;
-        //     read.read(file,db,this->frontEndPath);
-        // }
         void setFrontEndPath(){
             fs::path tmp = fs::current_path();
             fs::path p = tmp.parent_path();

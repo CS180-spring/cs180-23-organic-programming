@@ -118,7 +118,7 @@ void readMenu(UserAccount &account, File &file)
 void updateMenu(UserAccount &account, File &file)
 {
     string databaseFile;
-    cout << "Database FileName: ";
+    cout << "Database Directory Name: ";
     getline(cin, databaseFile);
 
     cout << "-= Verifying & Processing Database =-" << endl;
@@ -186,7 +186,7 @@ void updateMenu(UserAccount &account, File &file)
 void createMenu(UserAccount &account)
 {
     string databaseFile;
-    cout << "Database FileName: ";
+    cout << "Database Directory Name: ";
     getline(cin, databaseFile);
 
     cout << "-= Verifying Database=-" << endl;
@@ -223,7 +223,7 @@ void createMenu(UserAccount &account)
 void deleteMenu(UserAccount &account)
 {
     string databaseFile;
-    cout << "Database FileName: ";
+    cout << "Database Directory Name: ";
     getline(cin, databaseFile);
 
     cout << "-= Verifying & Processing Database =-" << endl;
@@ -250,7 +250,7 @@ void deleteMenu(UserAccount &account)
             {
                 cout << "Deleting database." << endl;
                 db.deleteDirectory();
-                account.getDatabases().erase(i);
+                //account.getDatabases().erase(i);
             }
             else
             {
@@ -263,7 +263,7 @@ void deleteMenu(UserAccount &account)
 void viewMenu(UserAccount &account, File &file)
 {
     string databaseFile;
-    cout << "Database FileName: ";
+    cout << "Database Directory Name: ";
     getline(cin, databaseFile);
 
     cout << "-= Verifying & Processing Database =-" << endl;

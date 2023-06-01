@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include<filesystem>
 #include "rapidjson/document.h"
 #include "rapidjson/pointer.h"
 #include "rapidjson/prettywriter.h"
@@ -96,12 +97,19 @@ class Delete : public Search{
                 return; 
             }
         }
-        void deleteJSONfile(string &file){
+        void deleteJSONfile(string &file,Database &db,fs::path path){
             // Convert std::string to C-style string
-            const char* cStrFilename = file.c_str();
+            //const char* cStrFilename = file.c_str();
             
-            // Delete the file
-            if (remove(cStrFilename) != 0) cout<< "\nFailed to delete the file.\n"<<endl;
+            fs::path finalPath = path / db.getName()/ file;
+            string removeFile = finalPath.string();
+            //int val;
+            //val= remove(cStrFilename);
+
+            //cout<<"Value of Remove ="<<val<<endl;
+
+            //Delete the file
+            if (remove(removeFile.c_str()) != 0) cout<< "\nFailed to delete the file.\n"<<endl;
             else cout<< "\nFile deleted successfully.\n"<<endl;
         }
 };
