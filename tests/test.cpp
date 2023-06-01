@@ -23,12 +23,10 @@ TEST(UserAccountTestPass, testSetPass) {
 
 TEST(UserAccountTestDatabase, testinsertDatabase) {
     UserAccount newbie;
-    Database(db);
-    string name = "testdb";
-    newbie.insertDatabase(db);
-    EXPECT_NO_THROW(newbie.getDatabases());
+    vector<Database> databases;
+    Database db;
+    EXPECT_NO_THROW(newbie.insertDatabase(db));
 } 
-
 TEST(DatabaseTestCreateDirectory, testCreateDirectory) {
     Database* db;
     EXPECT_NO_THROW(db->createDirectory());
@@ -36,34 +34,52 @@ TEST(DatabaseTestCreateDirectory, testCreateDirectory) {
 TEST(FileTestCreateFile, testCreateFile) {
     Document doc;
     File(testFile);
-    EXPECT_NO_THROW(testFile.createFile());
+    Database db;
+    EXPECT_NO_THROW(testFile.createFile(db));
 }
 TEST(FileTestReadFile, testReadFile) {
     Document doc;
     File(testFile);
-    EXPECT_NO_THROW(testFile.readFile());
+    Database db;
+    EXPECT_NO_THROW(testFile.readFile(db));
 }
 TEST(FileTestSearchFile, testSearchFile) {
     Document doc;
     File(testFile);
-    EXPECT_NO_THROW(testFile.searchFile());
+    Database db;
+    EXPECT_NO_THROW(testFile.searchFile(db));
 }
 TEST(FileTestUpdateFile, testUpdateFile) {
     Document doc;
     File(testFile);
-    EXPECT_NO_THROW(testFile.updateFile()); 
+    Database db;
+    EXPECT_NO_THROW(testFile.updateFile(db)); 
 }
 TEST(FileTestDeleteFile, testDeleteFile) {
     Document doc;
     File(testFile);
-    EXPECT_NO_THROW(testFile.deleteFile()); 
+    Database db;
+    EXPECT_NO_THROW(testFile.deleteFile(db)); 
+}
+TEST(FileTestConvertFile, testConvertFile) {
+    Document doc;
+    File(testFile);
+    Database db;
+    EXPECT_NO_THROW(testFile.convertFile(db));
 }
 
-
-/* TEST(DatabaseTestDeleteDirectory, testDeleteDirectory) {
+/*TEST(DatabaseTestDeleteDirectory, testDeleteDirectory) {
     Database* db;
     db->createDirectory();
     EXPECT_NO_THROW(db->deleteDirectory());
+} */
+
+/* TEST(UserAccountTestDatabase, testinsertDatabase) {
+    UserAccount newbie;
+    vector<Database> databases;
+    Database db;
+    newbie.insertDatabase(db);
+    EXPECT_EQ(newbie.getDatabases(),db);
 } */
 
 int main(int argc, char **argv) {

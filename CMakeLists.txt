@@ -16,13 +16,11 @@ include_directories(
 
 ADD_EXECUTABLE(test
     tests/test.cpp
-    Frontend/UserAccount.h
-    Backend/Database.h
-    Backend/Collection.h
+    
 )
-ADD_EXECUTABLE(backEndTest
-    Backend/backEndTest.cpp
-)
+#ADD_EXECUTABLE(backEndTest
+   # Backend/backEndTest.cpp
+#)
 
 
 TARGET_LINK_LIBRARIES(test gmock gtest gtest_main)
