@@ -2,6 +2,7 @@
 #define FILE_H
 #include <iostream>
 #include <fstream>
+#include <filesystem>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/prettywriter.h"
@@ -12,16 +13,17 @@
 #include "Delete.h"
 #include "Search.h"
 #include "csv.h"
+#include "Database.h"
 
 using namespace rapidjson;
 
-//Composition class for all CRUD operations
 //Composition class for all CRUD operations
 class File {
     private:
         Document jsonDoc;
         std::string fileName;
         std::string fileJSONStr; 
+        fs::path frontEndPath;
 
         //Helper function for changing string input to const string;
         string getUserInput(void){
@@ -38,15 +40,18 @@ class File {
         Search search;
         CSV csv;
         Validate validator;
+        Database db;
 
     public:
         File(const std::string& fileName_) : fileName(fileName_) {}
-        File(){}
+        File(){
+            setFrontEndPath();
+            //this->db = db.getName();
+        }
 
-        void createFile(){
+        void createFile(Database &db){
 
             fileName = " ";
-            //Document newFile;
             this->jsonDoc.SetArray(); //SetObject, SetArray - array for root of json file
             std::string choice;
 
@@ -67,7 +72,7 @@ class File {
                     std::cin >> fileName;
                     this->jsonDoc = create.buildFile(); //usage of Create member 
                     
-                    read.read(fileName);
+                    read.read(fileName,db,this->frontEndPath);
                     read.save(jsonDoc); //usage of Read member
                     std::cout << "\nCreated the JSON file \"" << fileName << "\"\n";
                     
@@ -75,13 +80,13 @@ class File {
                     std::cin >> choice;
                     validator.checkInputChar(choice);
                 }
-                std::cout << "OKay have a nice day!";
+                std::cout << "Okay have a nice day!\n"<<std::endl;
             }
         }
-        void readFile(){
+        void readFile(Database &db){
             std::cout << "Name of file: ";
             std::cin >> fileName;
-            read.read(fileName);
+            read.read(fileName,db,this->frontEndPath);
 
             try{
                 this->fileJSONStr= read.load(jsonDoc);
@@ -93,13 +98,13 @@ class File {
                 return;
             }
         }
-        void updateFile(){
+        void updateFile(Database &db){
             std::cout << "=============================================================\n";
             std::cout << "UPDATE"<<std::endl;
             std::cout << "=============================================================\n";
             
             int choice;
-            readFile();     //read most current file and save to JSON file string
+            readFile(db);     //read most current file and save to JSON file string
             if(fileJSONStr == "")return;
 
             //prompt User input for update options
@@ -164,13 +169,13 @@ class File {
                     return;     //wrong choice input
             }
         }
-        void deleteFile(){
+        void deleteFile(Database &db){
             std::cout << "=============================================================\n";
             std::cout << "DELETE"<<std::endl;
             std::cout << "=============================================================\n";
 
             int choice;
-            readFile();     //read most current file and save to JSON file string
+            readFile(db);     //read most current file and save to JSON file string
             if(fileJSONStr == "")return;
 
             //prompt User input for update options
@@ -180,7 +185,8 @@ class File {
                         "2. Delete A Key-Value Pair From a JSON Object\n"
                         "3. Delete A Key-Value Pair from All JSON Objects\n"
                         "4. Delete Multiple Key-Value Pairs From a JSON Object\n"
-                        "5. Delete Multiple Key-Value Pairs From All JSON Objects\n"<<std::endl;
+                        "5. Delete Multiple Key-Value Pairs From All JSON Objects\n"
+                        "6. Delete the JSON File\n"<<std::endl;
             
             std::cout<<"\nEnter Update Option: ";
             cin>>choice; 
@@ -245,18 +251,21 @@ class File {
                     read.save(jsonDoc);
                     break;
                 }
+                case 6:
+                    remove.deleteJSONfile(fileName);
+                    break;
                 default:
                     cout<<"\nInvalid Choice"<<endl;
                     return;
             }
         }
-        void searchFile(){
+        void searchFile(Database &db){
             std::cout << "=============================================================\n";
             std::cout << "SEARCH"<<std::endl;
             std::cout << "=============================================================\n";
             
             int choice;
-            readFile();     //read most current file and save to JSON file string
+            readFile(db);     //read most current file and save to JSON file string
             if(fileJSONStr == "")return;
 
             //prompt User input for search options
@@ -284,9 +293,21 @@ class File {
                     return;
             }
         }
-        void convertFile(){
+        void convertFile(Database &db){
             cout<<"\nConverting CSV ---> JSON\n--------------------------------"<<endl<<endl;
-            csv.convertCSV();
+            //readCSVFile(db,file);
+            csv.convertCSV(db,this->frontEndPath);
+        }
+        // void readCSVFile(Database &db,string &file){
+        //     std::cout << "Name of file: ";
+        //     std::cin >> file;
+        //     read.read(file,db,this->frontEndPath);
+        // }
+        void setFrontEndPath(){
+            fs::path tmp = fs::current_path();
+            fs::path p = tmp.parent_path();
+            fs::path path = p / "Frontend";
+            this->frontEndPath = path;
         }
         void print(){
             StringBuffer buffer;

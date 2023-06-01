@@ -45,9 +45,9 @@ public:
     void createDirectory()
     {
         fs::path tmp = fs::current_path();
-        fs::create_directories(tmp / name / "Collection1");
+        fs::create_directories(tmp / name);
 
-        if(fs::exists(tmp / name / "Collection1"))
+        if(fs::exists(tmp / name))
         {
             cout << "Directory created successfully\n";
         }
