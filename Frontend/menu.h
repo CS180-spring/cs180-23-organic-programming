@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include "UserAccount.h"
+#include "../Backend/File.h"
 
 using namespace std;
 
@@ -77,16 +78,39 @@ void landingPageMenu()
 {
     cout << "What would you like to do with a database?" << endl;
     cout << "[A] Create" << endl;
-    cout << "[B] Read" << endl;
-    cout << "[C] Update" << endl;
-    cout << "[D] Delete" << endl;
-    cout << "[E] View" << endl;
+    cout << "[B] Update" << endl;
+    cout << "[C] Delete" << endl;
+    cout << "[D] View" << endl;
 
     cout << "[X] Quit" << endl;
     cout << "" << endl;
 }
 
-void readMenu()
+// void readMenu(UserAccount &account, File &file)
+// {
+//     string databaseFile;
+//     cout << "Database FileName: ";
+//     getline(cin, databaseFile);
+
+//     vector<Database> dbs = account.getDatabases();
+//     for (auto i = dbs.begin(); i != dbs.end(); i++)
+//     {
+//         Database &db = *i;
+//         if (db.getName() == databaseFile)
+//         {
+//             // If verified, print success
+//             cout << "Database successfully found." << endl;
+//             cout << endl;
+//             file.readFile();
+//             // If verified, print success
+//             cout << "Database successfully read." << endl;
+//             cout << endl;
+//             break;
+//         }
+//     }
+// }
+
+void updateMenu(UserAccount &account, File &file)
 {
     string databaseFile;
     cout << "Database FileName: ";
@@ -95,32 +119,63 @@ void readMenu()
     cout << "-= Verifying & Processing Database =-" << endl;
     cout << endl;
 
-    // Verify database here
+    vector<Database> dbs = account.getDatabases();
+    for (auto i = dbs.begin(); i != dbs.end(); i++)
+    {
+        Database &db = *i;
+        if (db.getName() == databaseFile)
+        {
+            // If verified, print success
+            cout << "Database successfully found." << endl;
+            cout << endl;
 
-    // If verified, print success
-    cout << "Database successfully read." << endl;
-    cout << endl;
-}
+            bool backendTest = true;
+            int choice;
+            string input;
 
-void updateMenu()
-{
-    string databaseFile;
-    cout << "Database FileName: ";
-    getline(cin, databaseFile);
+            while (backendTest)
+            {
+                cout << "\nSelect File Operation\n"
+                        "----------------------\n"
+                        "1. Create\n"
+                        "2. Update\n"
+                        "3. Delete\n"
+                        "4. Convert"
+                     << std::endl;
 
-    cout << "-= Verifying & Processing Database =-" << endl;
-    cout << endl;
+                cout << "\nEnter Choice of Operation (or -1 to Prompt Quit): ";
+                cin >> choice;
 
-    // If verified, print success
-    cout << "Database successfully found." << endl;
-    cout << endl;
-
-    cout << "Update Options:" << endl;
-    cout << "[A] Update" << endl;
-    cout << "[B] Delete" << endl;
-    cout << "[C] View" << endl;
-
-    cout << "[X] Quit" << endl;
+                switch (choice)
+                {
+                case 1:
+                    file.createFile(db);
+                    break;
+                case 2:
+                    file.updateFile();
+                    break;
+                case 3:
+                    file.deleteFile();
+                    break;
+                case 4:
+                    file.convertFile();
+                    break;
+                default:
+                    cout << "Continue Operations? (Y or N): ";
+                    cin >> input;
+                    if (input == "N" || input == "n")
+                        backendTest = false;
+                    else
+                    {
+                        cin.clear(); // Clear the error flag
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        backendTest = true;
+                    }
+                }
+            }
+            break;
+        }
+    }
 }
 
 void createMenu(UserAccount &account)
@@ -171,7 +226,7 @@ void deleteMenu(UserAccount &account)
     vector<Database> dbs = account.getDatabases();
     for (auto i = dbs.begin(); i != dbs.end(); i++)
     {
-        Database& db = *i;
+        Database &db = *i;
         if (db.getName() == databaseFile)
         {
             // If verified, print success
@@ -200,8 +255,7 @@ void deleteMenu(UserAccount &account)
     }
 }
 
-
-void viewMenu()
+void viewMenu(UserAccount &account, File &file)
 {
     string databaseFile;
     cout << "Database FileName: ";
@@ -210,18 +264,40 @@ void viewMenu()
     cout << "-= Verifying & Processing Database =-" << endl;
     cout << endl;
 
-    // Verify database here
+    vector<Database> dbs = account.getDatabases(); 
+    for (auto i = dbs.begin(); i != dbs.end(); i++)
+    {
+        Database &db = *i;
+        if (db.getName() == databaseFile)
+        {
+            // If verified, print success
+            cout << "Database successfully found." << endl;
+            cout << endl;
 
-    // If verified, print success
-    cout << "Database successfully found." << endl;
-    cout << endl;
+            cout << "View Options:" << endl;
+            cout << "[A] Search" << endl;
+            cout << "[B] Filter" << endl;
 
-    cout << "View Options:" << endl;
-    cout << "[A] Sort" << endl;
-    cout << "[B] Filter" << endl;
-    cout << "[C] Search" << endl;
+            cout << "[X] Quit" << endl;
 
-    cout << "[X] Quit" << endl;
+            char userChoice;
+            cin >> userChoice;
+            cin.ignore();
+
+            if (userChoice == 'A')
+            {
+                file.searchFile();
+            }
+            else if (userChoice == 'B')
+            {
+                // implement filter
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
 }
 
 void menu(vector<UserAccount> &accountList)
@@ -279,7 +355,7 @@ void menu(vector<UserAccount> &accountList)
 
     // If they were able to log-in successfully,
     // they would have broken the while loop
-
+    File file;
     while (menuChoice != 'X')
     {
         landingPageMenu();
@@ -294,19 +370,15 @@ void menu(vector<UserAccount> &accountList)
         }
         else if (menuChoice == 'B')
         {
-            readMenu();
+            updateMenu(account, file);
         }
         else if (menuChoice == 'C')
         {
-            updateMenu();
+            deleteMenu(account);
         }
         else if (menuChoice == 'D')
         {
-            deleteMenu(account);
-        }
-        else if (menuChoice == 'E')
-        {
-            viewMenu();
+            viewMenu(account, file);
         }
         else
         {

@@ -1,6 +1,9 @@
 # Folders
 .github/
+googletest
 
 # Files
 .vscode/
 .gitmodules/
+.gitignore
+a.exe
