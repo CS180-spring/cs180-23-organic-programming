@@ -20,6 +20,9 @@ ADD_EXECUTABLE(test
 #ADD_EXECUTABLE(backEndTest
    # Backend/backEndTest.cpp
 #)
+ADD_EXECUTABLE(organicDB
+    frontend/main.cpp
+)
 
 
 TARGET_LINK_LIBRARIES(test gmock gtest gtest_main)
